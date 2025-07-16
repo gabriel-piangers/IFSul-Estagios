@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+  margin: 0;
+  border: none;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+body {
+  font-family: inter, 'Trebuchet MS', sans-serif;
+}
+
+/* Previnir o comportamento padrão do autofill */
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-text-fill-color: #000 !important;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+:root {
+  --bg-color: white;
+}
+
+.login-main {
+  display: flex;
+  height: 100vh;
+}
+
+.login-banner {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;  
+}
+
+.login-banner-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.login-banner-logo {
+  width: 80%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  left: 0;
+}
+
+.login-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  padding: 0 6%;
+  height: 100%;
+}
+
+.login-nav {
+  display: flex;
+  margin-top: 15%;
+  margin-bottom: 2rem;
+}
+
+.login-nav-button:hover {
+  cursor: pointer;
+  
+}
+
+.login-nav-p{
+  width: 100%;
+  padding: 0.6rem 3.5rem;
+  border-bottom: 1px solid rgb(29, 29, 29);
+  transition: all 0.3s;
+}
+
+.login-nav-p.selected{
+  width: 100%;
+  padding: 0.6rem 3.5rem;
+  border-bottom: 4px solid rgb(29, 29, 29);
+}
+
+.std-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: min(10%, 2rem);
+  justify-content: center;
+  max-width: 360px;
+  height: 100%;
+}
+
+.login-form{
+  height: 50%;
+}
+
+.register-form {
+  height: 75%;
+  gap: min(5%, 1.5rem);
+}
+
+.form-input-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+
+.form-input {
+  border: 1px solid black;
+  width: 100%;
+  border-radius: 1.5rem;
+  padding: .8rem 1.5rem;
+}
+
+.form-input.invalid{
+    border: 1px solid red;
+}
+
+.form-input:focus {
+  outline: none;
+}
+
+.form-input:focus ~ .form-label{
+  transform: translateY(-1.4rem);
+}
+
+.form-input:not(:placeholder-shown) + .form-label {
+  transform: translateY(-1.4rem);
+}
+
+.form-input-error{
+  font-size: 0.8rem;
+  color: red;
+  margin-left: 1rem;
+  margin-top: 0.2rem;
+}
+
+.form-label {
+  color: rgb(39, 39, 39);
+  font-size: 0.8rem;
+  position: absolute;
+  left: 1.2rem;
+  transition: all 0.2s ease-out;
+  background-color: var(--bg-color);
+  padding: 0 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.form-submit {
+  width: 100%;
+  border-radius: 1.5rem;
+  padding: 0.6rem 0;
+  background-color: #8DC640;
+  color: white;
+  font-size: 1.1rem;
+  transition: all 0.2s;
+}
+
+.form-submit:hover {
+  cursor: pointer;
+  background-color: #78aa37;
+  scale: 102%;
+}
