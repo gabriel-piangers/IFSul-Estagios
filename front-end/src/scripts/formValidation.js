@@ -14,3 +14,10 @@ let [upper, lower, number] = [false, false, false]
 
     return (upper && lower && number)
 }
+
+export function validateEmail(email) {
+    const domainStart = email.indexOf('@')
+    const domain = email.slice(domainStart, email.length)
+    if (domain === "@academico.ifsul.edu.br" || domain === "@ifsul.edu.br") return true
+    return false
+}
