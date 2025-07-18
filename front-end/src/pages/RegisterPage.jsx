@@ -5,17 +5,12 @@ import { FormSubmit } from "../components/FormSubmit";
 import { FormSelect } from "../components/FormSelect";
 import { useState } from "react";
 import { validatePassword, validateEmail } from "../scripts/formValidation";
+import { campusOpt, cursoOpt } from "../scripts/memoDB";
 
 export function RegisterPage() {
   const [selected, setSelection] = useState("register");
   const [validPassword, setValidPassword] = useState(true);
   const [validEmail, setValidEmail] = useState(true);
-
-  const campusOpt = [{ name: "Sapiranga", value: "sg" }];
-  const cursoOpt = [
-    { name: "Informática", value: "inf" },
-    { name: "Eletromecânica", value: "etm" },
-  ];
 
   const submitRegister = async (e) => {
     e.preventDefault();
