@@ -243,8 +243,8 @@ body {
 .search-form {
   display: flex;
   gap: 1.5rem;
-  padding: 2rem 0;
-  margin: 0 1.5rem ;
+  padding: 1.8rem 0;
+  margin: 0 1.2rem ;
   border-bottom: 2px solid var(--border-color);
 }
 
@@ -252,29 +252,35 @@ body {
   display:  flex;
   width: 100%;
   background-color: var(--section-bg-color);
-  margin-top: 1.5rem;
+  margin-top: 1.2rem;
 }
 
 .search-results-info {
   font-size: 0.75rem;
   font-weight: 200;
-  padding: 1.2rem 2rem;
+  padding: 1rem 2rem;
   border-bottom: 1px solid var(--border-color);
-  border-right: 1px solid var(--border-color);
   
 }
 
 .search-aside {
   width: 35%;
+  height: calc(100vh - 205px);
+  overflow-y: auto;
+    border-right: 1px solid var(--border-color);
 }
 
 .aside-job-container {
-  height: 120px;
   padding: 1rem 2rem;
-  border-right: 1px solid var(--border-color);
   border-bottom:  1px solid var(--border-color);
   display: flex;
   gap: 1rem;
+  transition: all 0.2s;
+}
+
+.aside-job-container:hover {
+  background-color: #f6f6f6;
+  cursor: pointer;
 }
 
 .aside-job-icon {
@@ -303,6 +309,8 @@ body {
 .search-job-display {
   padding: 0 2rem;
   width: 65%;
+  height: calc(100vh - 205px);
+  overflow: auto;
 }
 
 .job-display-icon {

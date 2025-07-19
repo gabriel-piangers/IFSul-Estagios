@@ -5,29 +5,50 @@ import jobIcon from "../assets/job-icon.png";
 import { printReais } from "../scripts/stringHandler";
 import { useState } from "react";
 import { cidadeOpt, cursoOpt, vagas } from "../scripts/memoDB";
+import { useNavigate, useSearchParams } from "react-router";
 
 export function SearchPage() {
-  const [selectedJob, setSelectedJob] = useState(vagas[0]);
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const searchCity = searchParams.get("cidade") || null
+  const searchCourse = searchParams.get("curso") || null
+  let mathcingJobs = null
+  if (searchCity && searchCourse) {
+    mathcingJobs = vagas.filter(vaga => {
+      return (vaga.cidade === searchCity && vaga.curso === searchCourse)
+    })
+  } else {
+    mathcingJobs = vagas
+  }
+  const [selectedJob, setSelectedJob] = useState(mathcingJobs[0]);
+
+
+  const handleSearchFilter = (e) => {
+    e.preventDefault()
+    const data = new FormData(e.target)
+    const payload = Object.fromEntries(data)
+    navigate(`/search?cidade=${payload.cidade}&curso=${payload.curso}`)
+  }
 
   return (
     <>
       <Header />
       <main className="search-main">
-        <form className="search-form">
-          <FormSelect label="Cidade" options={cidadeOpt} />
-          <FormSelect label="Curso" options={cursoOpt} />
-          <FormSubmit label="Buscar" />
+        <form className="search-form" onSubmit={handleSearchFilter}>
+          <FormSelect label="cidade" options={cidadeOpt} required={true}/>
+          <FormSelect label="curso" options={cursoOpt} required={true}/>
+          <FormSubmit label="buscar" />
         </form>
 
         <div className="search-results">
           <aside className="search-aside">
             <p className="search-results-info">
               {" "}
-              20 vagas encontradas em Sapiranga, Rio Grande do Sul
+              {`${mathcingJobs.length} vagas encontradas ${(searchCity? "em "+searchCity : "")}`}
             </p>
-            {vagas.map((vaga) => {
+            {mathcingJobs.map((vaga) => {
               return (
-                <div className="aside-job-container" key={vaga.id}>
+                <div className="aside-job-container" key={vaga.id} onClick={() => setSelectedJob(vaga)}>
                   <img
                     src={jobIcon}
                     alt="Job icon"
@@ -65,6 +86,14 @@ export function SearchPage() {
             <p className="job-display-p">
               <strong>Bolsa</strong> <br />
               {printReais(selectedJob.bolsa)}
+            </p>
+                        <p className="job-display-p">
+              <strong>Contato</strong> <br />
+              {selectedJob.contato}
+            </p>
+                        <p className="job-display-p">
+              <strong>Cursos Relacionados</strong> <br />
+              {selectedJob.curso}
             </p>
           </section>
         </div>

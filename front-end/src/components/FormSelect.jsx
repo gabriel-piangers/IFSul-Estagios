@@ -1,10 +1,10 @@
 import { capitalize } from "../scripts/stringHandler";
 
-export function FormSelect({ label, name, options }) {
+export function FormSelect({ label, name, options, required }) {
   if (!name) name = label;
   return (
     <div className="form-input-container ">
-      <select name={name} defaultValue={null} className="form-input form-select">
+      <select name={name} defaultValue={null} className="form-input form-select" required={(required? true : undefined)}>
         <option value={null} defaultChecked></option>
         {options.map((opt) => {
           return <option value={opt.value} key={opt.value}> {opt.name} </option>;
