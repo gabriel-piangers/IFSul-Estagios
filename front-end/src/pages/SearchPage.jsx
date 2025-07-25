@@ -6,6 +6,7 @@ import { printReais } from "../scripts/stringHandler";
 import { useState } from "react";
 import { cidadeOpt, cursoOpt, vagas } from "../scripts/memoDB";
 import { useNavigate, useSearchParams } from "react-router";
+import { useEffect } from "react";
 
 export function SearchPage() {
   const navigate = useNavigate()
@@ -22,6 +23,9 @@ export function SearchPage() {
   }
   const [selectedJob, setSelectedJob] = useState(mathcingJobs[0]);
 
+  useEffect(() =>{
+    setSelectedJob(mathcingJobs[0])
+  }, [mathcingJobs])
 
   const handleSearchFilter = (e) => {
     e.preventDefault()
@@ -48,7 +52,7 @@ export function SearchPage() {
             </p>
             {mathcingJobs.map((vaga) => {
               return (
-                <div className="aside-job-container" key={vaga.id} onClick={() => setSelectedJob(vaga)}>
+                <div className={`aside-job-container ${selectedJob.id === vaga.id ? "selected" : ""}`} key={vaga.id} onClick={() => setSelectedJob(vaga)}>
                   <img
                     src={jobIcon}
                     alt="Job icon"

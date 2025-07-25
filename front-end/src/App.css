@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 * {
   margin: 0;
@@ -20,20 +20,20 @@ input:-webkit-autofill:active {
 }
 
 :root {
-  --bg-color: #F0F0F0;
+  --bg-color: #f0f0f0;
   --section-bg-color: white;
-  --button-color: #8DC640;
+  --button-color: #8dc640;
   --button-hover: #78aa37;
   --border-color: rgb(201, 201, 201);
-
 }
 
 body {
-  font-family: inter, 'Trebuchet MS', sans-serif;
+  font-family: inter, "Trebuchet MS", sans-serif;
   background-color: var(--bg-color);
 }
 
 .login-main {
+  background-color: var(--section-bg-color);
   display: flex;
   height: 100vh;
 }
@@ -42,7 +42,7 @@ body {
   width: 50%;
   height: 100%;
   overflow: hidden;
-  position: relative;  
+  position: relative;
 }
 
 .login-banner-bg {
@@ -76,17 +76,16 @@ body {
 
 .login-nav-button:hover {
   cursor: pointer;
-  
 }
 
-.login-nav-p{
+.login-nav-p {
   width: 100%;
   padding: 0.6rem 3.5rem;
   border-bottom: 1px solid rgb(29, 29, 29);
   transition: all 0.3s;
 }
 
-.login-nav-p.selected{
+.login-nav-p.selected {
   width: 100%;
   padding: 0.6rem 3.5rem;
   border-bottom: 4px solid rgb(29, 29, 29);
@@ -103,7 +102,7 @@ body {
   height: 100%;
 }
 
-.login-form{
+.login-form {
   height: 50%;
 }
 
@@ -126,18 +125,18 @@ body {
   border: 1px solid black;
   width: 100%;
   border-radius: 1.5rem;
-  padding: .8rem 1.5rem;
+  padding: 0.8rem 1.5rem;
 }
 
-.form-input.invalid{
-    border: 1px solid red;
+.form-input.invalid {
+  border: 1px solid red;
 }
 
 .form-input:focus {
   outline: none;
 }
 
-.form-input:focus ~ .form-label{
+.form-input:focus ~ .form-label {
   transform: translateY(-1.4rem);
 }
 
@@ -145,7 +144,7 @@ body {
   transform: translateY(-1.4rem);
 }
 
-.form-input-error{
+.form-input-error {
   font-size: 0.8rem;
   color: red;
   margin-left: 1rem;
@@ -179,7 +178,7 @@ body {
   scale: 102%;
 }
 
-.std-header{
+.std-header {
   width: 100%;
   background-color: var(--section-bg-color);
   position: relative;
@@ -198,13 +197,16 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 0 2.5rem;
-
 }
 
 .header-logo {
   height: 100%;
   object-fit: scale-down;
   padding: 1.3rem 0;
+}
+
+.header-logo:hover {
+  cursor: pointer;
 }
 
 .header-nav-right {
@@ -214,13 +216,19 @@ body {
   align-items: center;
 }
 
-.header-profile-pic{
-  padding: 1rem 0;
-  height: 100%;
+.header-profile-pic {
   object-fit: contain;
+  border-radius: 100%;
+  transition: all 0.2s;
 }
 
-.header-search{
+.header-profile-pic:hover {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  scale: 105%;
+  cursor: pointer;
+}
+
+.header-search {
   height: 100%;
   padding: 1.8rem 0;
   object-fit: contain;
@@ -228,7 +236,7 @@ body {
   transition: all 0.2s;
 }
 
-.header-search:hover{
+.header-search:hover {
   cursor: pointer;
   scale: 115%;
 }
@@ -244,12 +252,12 @@ body {
   display: flex;
   gap: 1.5rem;
   padding: 1.8rem 0;
-  margin: 0 1.2rem ;
+  margin: 0 1.2rem;
   border-bottom: 2px solid var(--border-color);
 }
 
 .search-results {
-  display:  flex;
+  display: flex;
   width: 100%;
   background-color: var(--section-bg-color);
   margin-top: 1.2rem;
@@ -260,22 +268,25 @@ body {
   font-weight: 200;
   padding: 1rem 2rem;
   border-bottom: 1px solid var(--border-color);
-  
 }
 
 .search-aside {
   width: 35%;
   height: calc(100vh - 205px);
   overflow-y: auto;
-    border-right: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
 }
 
 .aside-job-container {
   padding: 1rem 2rem;
-  border-bottom:  1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   gap: 1rem;
   transition: all 0.2s;
+}
+
+.aside-job-container.selected {
+  background-color: #f6f6f6;
 }
 
 .aside-job-container:hover {
@@ -286,7 +297,7 @@ body {
 .aside-job-icon {
   height: 50%;
   object-fit: contain;
-  border: 1px solid var(--border-color) ;
+  border: 1px solid var(--border-color);
   aspect-ratio: 1 /1;
 }
 
