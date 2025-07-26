@@ -10,14 +10,72 @@ import { campusOpt, cursoOpt } from "../scripts/memoDB";
 export function RegisterPage() {
   const [selected, setSelection] = useState("register");
   const [validPassword, setValidPassword] = useState(true);
-  const [validEmail, setValidEmail] = useState(true);
+  const [validEmail, setValidEmail] = useState({ status: true, msg: "" });
+
+  const checkEmail = async (email) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/check-email/${email}`
+      );
+      const data = await response.json();
+
+      if (data.success) {
+        return !data.exists;
+      } else {
+        console.log(`Server error: ${data.msg}`);
+        return false;
+      }
+    } catch (error) {
+      console.log(`Error checking email: ${error}`);
+    }
+  };
 
   const submitRegister = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target); // recebe os dados do form
     const payload = Object.fromEntries(formData); // converte para um objeto
-    setValidPassword(validatePassword(payload.password));
-    setValidEmail(validateEmail(payload.email));
+    const isValidPassword = validatePassword(payload.password)
+    const isValidEmail = validateEmail(payload.email)
+
+    isValidPassword ? setValidPassword(true) : setValidPassword(false)
+    isValidEmail? setValidEmail(true) : setValidEmail({ 
+      status: false, msg: "Utilize seu email institucional" 
+    });
+
+    if (isValidEmail && isValidPassword) {
+      if (await checkEmail(payload.email)) {
+        setValidEmail({ status: true });
+
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/users`, {
+          method: "POST",
+          headers: {
+            'Content-Type': "application/json",
+          },
+          body: JSON.stringify({
+            email: payload.email,
+            password: payload.password,
+            name: payload.name,
+            user_type: "aluno"
+          })
+        })
+
+        const data = await response.json()
+
+        if(data.success) {
+          console.log("usuário criado com sucesso")
+
+          e.target.reset()
+        } else {
+          console.log(`Erro ao registrar usuário: ${data.msg}`)
+        }
+
+
+      } else {
+        setValidEmail({ status: false, msg: "Email já registrado" });
+      }
+
+    
+    }
   };
 
   return (
@@ -27,19 +85,17 @@ export function RegisterPage() {
       <section className="login-section">
         <LoginNav selected={selected} setSelection={setSelection} />
         <form className="register-form std-form" onSubmit={submitRegister}>
-          <FormInput label="nome" required={true} />
+          <FormInput label="nome" name={"name"} required={true} />
           <div className="form-input-container">
             <FormInput
               label={"email"}
               type="email"
               required={true}
-              className={validEmail ? "" : "invalid"}
+              className={validEmail.status ? "" : "invalid"}
             />
-           { !validEmail && (
-             <p className={`form-input-error`}>
-              {"Utilize seu email institucional"}
-            </p>
-           )}
+            {!validEmail.status && (
+              <p className={`form-input-error`}>{validEmail.msg}</p>
+            )}
           </div>
           <FormSelect label={"campus"} options={campusOpt} required={true} />
           <FormSelect label={"curso"} options={cursoOpt} required={true} />
