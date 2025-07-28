@@ -4,39 +4,41 @@ import { FormInput } from "../components/FormInput";
 import { FormSubmit } from "../components/FormSubmit";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useAuth } from "../contexts/AuthProvider";
 
 export function LoginPage() {
   const navigate = useNavigate();
   const [selected, setSelection] = useState("login");
   const [invalidCredentials, setInvalidCredencials] = useState(false);
+  const {login} = useAuth()
 
   const submitLogin = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target); // recebe os dados do form
     const payload = Object.fromEntries(formData); // converte para um objeto
 
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/users/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: payload.email,
-          password: payload.password,
-        }),
-      }
-    );
+    const data = await login(payload.email, payload.password)
 
-    const data = await response.json();
+    if(data.success) {
+      
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/me`,
+        {
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    if (data.success) {
-      console.log("Logado com sucesso");
-      navigate("/search");
+      const myData = await response.json()
+
+      console.log(myData.user)
+
+      navigate('/search')
     } else {
       console.log(data.msg)
-      setInvalidCredencials(true);
+      setInvalidCredencials(true)
     }
   };
 

@@ -34,7 +34,10 @@ pool.on("error", (err, client) => {
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -202,11 +205,18 @@ app.get("/api/users/me", authenticateToken, async (req, res) => {
 
 // user logout
 app.post("/api/users/logout", authenticateToken, (req, res) => {
-  res.clearCookie("authToken");
+  try {
+      res.clearCookie("authToken");
   res.status(200).json({
     success: true,
     msg: "Sucessfully logged out",
   });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      msg: "Error in logout"
+    })
+  }
 });
 
 //gracefulll shut down
