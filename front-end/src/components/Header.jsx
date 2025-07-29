@@ -9,7 +9,7 @@ export function Header() {
     <header className="std-header">
       <nav className="header-nav">
         <img src={logo} alt="IFSul estágios logo" className="header-logo" 
-        onClick={() => navigate("/")}/>
+        onClick={() => navigate("/login")}/>
         <div className="header-nav-right">
           <img src={search} alt="Search Icon" className="header-search"/>
 

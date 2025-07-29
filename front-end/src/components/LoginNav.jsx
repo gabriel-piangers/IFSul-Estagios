@@ -14,7 +14,7 @@ export function LoginNav({ selected = "login", setSelection}) {
 
       <div className="login-nav-button" onClick={() => {
         setSelection('login')
-        navigate('/')
+        navigate('/login')
         }}>
         <p className={selected === "login" ? "login-nav-p selected" : "login-nav-p"}>Login</p>
       </div>
