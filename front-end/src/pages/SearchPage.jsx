@@ -9,38 +9,38 @@ import { useNavigate, useSearchParams } from "react-router";
 import { useEffect } from "react";
 
 export function SearchPage() {
-  const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
-  const searchCity = searchParams.get("cidade") || null
-  const searchCourse = searchParams.get("curso") || null
-  let mathcingJobs = null
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const searchCity = searchParams.get("cidade") || null;
+  const searchCourse = searchParams.get("curso") || null;
+  let mathcingJobs = null;
   if (searchCity && searchCourse) {
-    mathcingJobs = vagas.filter(vaga => {
-      return (vaga.cidade === searchCity && vaga.curso === searchCourse)
-    })
+    mathcingJobs = vagas.filter((vaga) => {
+      return vaga.cidade === searchCity && vaga.curso === searchCourse;
+    });
   } else {
-    mathcingJobs = vagas
+    mathcingJobs = vagas;
   }
   const [selectedJob, setSelectedJob] = useState(mathcingJobs[0]);
 
-  useEffect(() =>{
-    setSelectedJob(mathcingJobs[0])
-  }, [mathcingJobs])
+  useEffect(() => {
+    if (!mathcingJobs.includes(selectedJob)) setSelectedJob(mathcingJobs[0]);
+  }, [mathcingJobs]);
 
   const handleSearchFilter = (e) => {
-    e.preventDefault()
-    const data = new FormData(e.target)
-    const payload = Object.fromEntries(data)
-    navigate(`/search?cidade=${payload.cidade}&curso=${payload.curso}`)
-  }
+    e.preventDefault();
+    const data = new FormData(e.target);
+    const payload = Object.fromEntries(data);
+    navigate(`/search?cidade=${payload.cidade}&curso=${payload.curso}`);
+  };
 
   return (
     <>
       <Header />
       <main className="search-main">
         <form className="search-form" onSubmit={handleSearchFilter}>
-          <FormSelect label="cidade" options={cidadeOpt} required={true}/>
-          <FormSelect label="curso" options={cursoOpt} required={true}/>
+          <FormSelect label="cidade" options={cidadeOpt} required={true} />
+          <FormSelect label="curso" options={cursoOpt} required={true} />
           <FormSubmit label="buscar" />
         </form>
 
@@ -48,11 +48,19 @@ export function SearchPage() {
           <aside className="search-aside">
             <p className="search-results-info">
               {" "}
-              {`${mathcingJobs.length} vagas encontradas ${(searchCity? "em "+searchCity : "")}`}
+              {`${mathcingJobs.length} vagas encontradas ${
+                searchCity ? "em " + searchCity : ""
+              }`}
             </p>
             {mathcingJobs.map((vaga) => {
               return (
-                <div className={`aside-job-container ${selectedJob.id === vaga.id ? "selected" : ""}`} key={vaga.id} onClick={() => setSelectedJob(vaga)}>
+                <div
+                  className={`aside-job-container ${
+                    selectedJob.id === vaga.id ? "selected" : ""
+                  }`}
+                  key={vaga.id}
+                  onClick={() => setSelectedJob(vaga)}
+                >
                   <img
                     src={jobIcon}
                     alt="Job icon"
@@ -91,11 +99,11 @@ export function SearchPage() {
               <strong>Bolsa</strong> <br />
               {printReais(selectedJob.bolsa)}
             </p>
-                        <p className="job-display-p">
+            <p className="job-display-p">
               <strong>Contato</strong> <br />
               {selectedJob.contato}
             </p>
-                        <p className="job-display-p">
+            <p className="job-display-p">
               <strong>Cursos Relacionados</strong> <br />
               {selectedJob.curso}
             </p>

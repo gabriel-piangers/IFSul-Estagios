@@ -121,7 +121,6 @@ body {
 }
 
 .form-input {
-  background-color: var(--section-bg-color);
   border: 1px solid black;
   width: 100%;
   border-radius: 1.5rem;
@@ -157,7 +156,6 @@ body {
   position: absolute;
   left: 1.2rem;
   transition: all 0.2s ease-out;
-  background-color: var(--section-bg-color);
   padding: 0 0.5rem;
   border-radius: 0.5rem;
 }

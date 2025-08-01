@@ -1,0 +1,40 @@
+@import url("./App.css");
+
+.home-main {
+  background-color: var(--bg-color);
+  width: 100%;
+  height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 2rem;
+  margin: auto;
+}
+
+.home-section-container {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
+}
+
+.home-left {
+  width: 40%;
+  font-size: min(7.5vw, 7rem);
+  font-weight: 700;
+}
+
+.home-right {
+  width: 60%;
+  max-width: 500px;
+}
+
+#home-form {
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
