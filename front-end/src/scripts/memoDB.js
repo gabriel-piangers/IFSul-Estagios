@@ -11,6 +11,14 @@ export const cidadeOpt = [
     {name: "Novo Hamburgo", value: "Novo Hamburgo"},
 ]
 
+export const turnoOpt = [
+  {name: "Manhã", value: "Manhã"},
+  {name: "Tarde", value: "Tarde"},
+  {name: "Noite", value: "Noite"},
+  {name: "Integral", value: "Integral"},
+
+]
+
 export const vagas = [
   {
     id: 1,

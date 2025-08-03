@@ -20,7 +20,7 @@ export function LoginPage() {
 
     const data = await login(payload.email, payload.password);
 
-    if (data.success) navigate("/");
+    if (data.success) navigate("/search");
     else {
       console.log(data.msg);
       setInvalidCredencials(true);

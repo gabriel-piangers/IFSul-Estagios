@@ -1,19 +1,19 @@
 import { Header } from "../components/Header";
 import { FormSelect } from "../components/FormSelect";
 import { FormSubmit } from "../components/FormSubmit";
+import { SearchForm } from "../components/searchForm";
 import jobIcon from "../assets/job-icon.png";
 import { printReais } from "../scripts/stringHandler";
 import { useState } from "react";
 import { cidadeOpt, cursoOpt, vagas } from "../scripts/memoDB";
-import { useNavigate, useSearchParams } from "react-router";
+import { useSearchParams } from "react-router";
 import { useEffect } from "react";
 
 export function SearchPage() {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const searchCity = searchParams.get("cidade") || null;
-  const searchCourse = searchParams.get("curso") || null;
-  let mathcingJobs = null;
+  const [searchParams] = useSearchParams()
+  const searchCity = searchParams.get("cidade") || null
+  const searchCourse = searchParams.get("curso") || null
+  let mathcingJobs = null
   if (searchCity && searchCourse) {
     mathcingJobs = vagas.filter((vaga) => {
       return vaga.cidade === searchCity && vaga.curso === searchCourse;
@@ -27,22 +27,11 @@ export function SearchPage() {
     if (!mathcingJobs.includes(selectedJob)) setSelectedJob(mathcingJobs[0]);
   }, [mathcingJobs]);
 
-  const handleSearchFilter = (e) => {
-    e.preventDefault();
-    const data = new FormData(e.target);
-    const payload = Object.fromEntries(data);
-    navigate(`/search?cidade=${payload.cidade}&curso=${payload.curso}`);
-  };
-
   return (
     <>
       <Header />
-      <main className="search-main">
-        <form className="search-form" onSubmit={handleSearchFilter}>
-          <FormSelect label="cidade" options={cidadeOpt} required={true} />
-          <FormSelect label="curso" options={cursoOpt} required={true} />
-          <FormSubmit label="buscar" />
-        </form>
+      <main className="page-main">
+        <SearchForm cidades={cidadeOpt} cursos={cursoOpt}/>
 
         <div className="search-results">
           <aside className="search-aside">

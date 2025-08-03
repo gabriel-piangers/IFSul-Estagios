@@ -4,11 +4,13 @@ import { createRoot } from "react-dom/client";
 import { AuthProvider } from "./contexts/AuthProvider.jsx";
 import { LoginPage } from "./pages/LoginPage.jsx";
 import { SearchPage } from "./pages/SearchPage.jsx";
+import { CopexDashboard } from "./pages/CopexDashboard.jsx";
 import { UnderDevelopment } from "./pages/UnderDevelopmemnt.jsx";
 import { Unautorized } from "./pages/Unautorized.jsx";
 import { RequireAuth } from "./components/RequireAuth.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import "./styles/App.css";
+import { InsertionPage } from "./pages/InsertionPage.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -19,6 +21,9 @@ createRoot(document.getElementById("root")).render(
         <Route path="/register" element={<RegisterPage />} />
 
         <Route path="/search" element={<SearchPage />} />
+
+        <Route path="/copex" element={<CopexDashboard/>}/>
+        <Route path="/insert" element={<InsertionPage/>}/>
 
         <Route path="/under-development" element={<UnderDevelopment />} />
         <Route path="/unautorized" element={<Unautorized />} />

@@ -34,6 +34,7 @@
 }
 
 #home-form {
+  background-color: var(--bg-color);
   display: flex;
   flex-direction: column;
   border: none;

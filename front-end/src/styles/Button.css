@@ -1,0 +1,32 @@
+@import url('./App.css');
+
+.std-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2) ;
+  transition: all 0.2s;
+}
+
+.std-button:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.05);
+    scale: 102%;
+}
+
+.std-button-icon {
+  height: 3rem;
+  aspect-ratio: 1 / 1;
+}
+
+.std-button-p {
+  font-size: 1rem;
+}
+
+.light-button {
+    background-color: var(--section-bg-color);
+    border: 1px solid black;
+}

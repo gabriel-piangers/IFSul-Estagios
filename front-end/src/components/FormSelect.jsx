@@ -4,7 +4,7 @@ export function FormSelect({
   label,
   name,
   id,
-  options,
+  options = [],
   required,
   className = "",
   color = "var(--section-bg-color)",
