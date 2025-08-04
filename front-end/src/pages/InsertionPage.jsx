@@ -3,18 +3,25 @@ import { FormSelect } from "../components/FormSelect";
 import { FormSubmit } from "../components/FormSubmit";
 import { FormTextArea } from "../components/FormTextArea";
 import { TitleInput } from "../components/TitleInput";
+import { LightButton } from "../components/LightButton";
 import { Header } from "../components/Header";
 import { cidadeOpt, cursoOpt, turnoOpt } from "../scripts/memoDB";
 import "../styles/InsertionPage.css";
+import { useNavigate } from "react-router";
 
 export function InsertionPage() {
+  const navigate = useNavigate();
   const handleInsertion = (e) => {
-    e.preventDefault()
-    const formData = new FormData(e.target)
-    const payload = new Object.fromEntries(formData)
+    e.preventDefault();
+    const data = new FormData(e.target);
+    const payload = Object.fromEntries(data);
 
-    console.log(payload)
-  }
+    console.log(payload);
+  };
+
+  const handleReturn = () => {
+    navigate("/copex");
+  };
 
   return (
     <>
@@ -22,6 +29,7 @@ export function InsertionPage() {
 
       <main className="page-main">
         <section className="insert-job-display">
+          <h1 className="insert-title">Adicionar nova vaga</h1>
           <form className="std-form insert-form" onSubmit={handleInsertion}>
             <TitleInput placeholder="Título da vaga..." />
 
@@ -53,7 +61,7 @@ export function InsertionPage() {
                   required={true}
                 />
 
-                <FormInput label={"bolsa"} type="number" />
+                <FormInput label={"bolsa (R$)"} name={"bolsa"} type="number" />
               </div>
             </div>
 
@@ -62,10 +70,17 @@ export function InsertionPage() {
               className="insert-form-textarea"
             />
 
-            <FormSubmit
-              label="Cadastrar nova Vaga"
-              className="insert-form-submit"
-            />
+            <div className="flex-container">
+              <LightButton
+                label="Voltar"
+                className="insert-return-button"
+                onClick={handleReturn}
+              />
+              <FormSubmit
+                label="Adicionar vaga"
+                className="insert-form-submit"
+              />
+            </div>
           </form>
         </section>
       </main>

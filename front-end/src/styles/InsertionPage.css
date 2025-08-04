@@ -7,6 +7,13 @@
     overflow: hidden;
 }
 
+.insert-title {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
 .insert-form {
     gap: 1rem;
     max-width: none;
@@ -41,7 +48,12 @@
 }
 
 .insert-form-submit {
-    width: 40%;
+    width: 35%;
     margin-left: auto;
+}
+
+.insert-return-button {
+    border-radius: 1.5rem;
+    font-size: 1.1rem;
 }
 

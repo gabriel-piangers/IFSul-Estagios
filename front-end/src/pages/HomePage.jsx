@@ -1,19 +1,15 @@
 import { Header } from "../components/Header";
-import { FormSelect } from "../components/FormSelect";
-import { FormSubmit } from "../components/FormSubmit";
-import { useNavigate } from "react-router";
+import { SearchForm } from "../components/SearchForm";
 import { cidadeOpt, cursoOpt } from "../scripts/memoDB";
 import "../styles/Home.css";
+import { useEffect } from "react";
 
 export function HomePage() {
-  const navigate = useNavigate();
+  useEffect(() => {
+    document.body.classList.add("overflow-hidden");
 
-  const handleSearchFilter = (e) => {
-    e.preventDefault();
-    const data = new FormData(e.target);
-    const payload = Object.fromEntries(data);
-    navigate(`/search?cidade=${payload.cidade}&curso=${payload.curso}`);
-  };
+    return () => document.body.classList.remove("overflow-hidden");
+  }, []);
 
   return (
     <>
@@ -23,25 +19,12 @@ export function HomePage() {
           <section className="home-left">Encontre vagas de Estágio</section>
 
           <section className="home-right">
-            <form
-              className="search-form"
+            <SearchForm
+              cidades={cidadeOpt}
+              cursos={cursoOpt}
               id="home-form"
-              onSubmit={handleSearchFilter}
-            >
-              <FormSelect
-                label="cidade"
-                options={cidadeOpt}
-                color="var(--bg-color)"
-                required={true}
-              />
-              <FormSelect
-                label="curso"
-                options={cursoOpt}
-                color="var(--bg-color)"
-                required={true}
-              />
-              <FormSubmit label="buscar" />
-            </form>
+              color="var(--bg-color)"
+            />
           </section>
         </div>
       </main>

@@ -11,7 +11,9 @@ export function Header() {
         <img src={logo} alt="IFSul estágios logo" className="header-logo" 
         onClick={() => navigate("/login")}/>
         <div className="header-nav-right">
-          <img src={search} alt="Search Icon" className="header-search"/>
+          <img src={search} alt="Search Icon" className="header-search" onClick={() => {
+            navigate('/')
+          }}/>
 
           <img
             src={profile}

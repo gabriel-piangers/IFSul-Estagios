@@ -4,9 +4,11 @@
   width: 100%;
   border-radius: 1.5rem;
   padding: 0.8rem 1.5rem;
+  height: 6rem;
   max-width: 100%;
   max-height: 400px;
-  min-height: 42px ;
+  min-height: 43px ;
+  font-family: inter, "Trebuchet MS", sans-serif;
 }
 
 .form-title-input {

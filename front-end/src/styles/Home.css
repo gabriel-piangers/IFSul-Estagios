@@ -8,28 +8,26 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  padding: 2rem;
-  margin: auto;
 }
 
 .home-section-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1500px;
   display: flex;
-  display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 10%;
+  padding: min(8%, 3.5rem);
 }
 
 .home-left {
-  width: 40%;
-  font-size: min(7.5vw, 7rem);
+  width: 45%;
+  font-size: min(7.5vw, 8rem);
   font-weight: 700;
+  letter-spacing: 0.25rem;
 }
 
 .home-right {
-  width: 60%;
+  width: 55%;
   max-width: 500px;
 }
 
@@ -38,4 +36,5 @@
   display: flex;
   flex-direction: column;
   border: none;
+  padding: 0;
 }
