@@ -9,17 +9,17 @@ export function Header() {
     <header className="std-header">
       <nav className="header-nav">
         <img src={logo} alt="IFSul estágios logo" className="header-logo" 
-        onClick={() => navigate("/login")}/>
+        onClick={() => navigate("/")}/>
         <div className="header-nav-right">
           <img src={search} alt="Search Icon" className="header-search" onClick={() => {
-            navigate('/')
+            navigate('/search')
           }}/>
 
           <img
             src={profile}
             alt="Foto de perfil padrão"
             className="header-profile-pic"
-            onClick={() => navigate("/under-development")}
+            onClick={() => navigate("/login")}
           />
         </div>
       </nav>

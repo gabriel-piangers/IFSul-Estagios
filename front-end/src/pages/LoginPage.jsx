@@ -5,25 +5,36 @@ import { FormSubmit } from "../components/FormSubmit";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthProvider";
+import { loginErrors } from "../scripts/formValidation";
 
 export function LoginPage() {
   const navigate = useNavigate();
 
   const [selected, setSelection] = useState("login");
-  const [invalidCredentials, setInvalidCredencials] = useState(false);
+  const [invalidCredentials, setInvalidCredencials] = useState({
+    show: false,
+    msg: "",
+  });
   const { login } = useAuth();
 
   const submitLogin = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target); // recebe os dados do form
-    const payload = Object.fromEntries(formData); // converte para um objeto
+    try {
+      e.preventDefault();
+      const formData = new FormData(e.target); // recebe os dados do form
+      const payload = Object.fromEntries(formData); // converte para um objeto
 
-    const data = await login(payload.email, payload.password);
+      const data = await login(payload.email, payload.password);
 
-    if (data.success) navigate("/search");
-    else {
-      console.log(data.msg);
-      setInvalidCredencials(true);
+      if (data.success) {
+        if (data.user.user_type === "copex") return navigate("/copex");
+        return navigate("/");
+      } else {
+        console.log(data.msg);
+        setInvalidCredencials({ show: true, msg: loginErrors(data.status) });
+      }
+    } catch (error) {
+      console.log(error)
+      setInvalidCredencials({show:true, msg: "Error in Fetch"})
     }
   };
 
@@ -41,19 +52,19 @@ export function LoginPage() {
           <FormInput
             label={"email"}
             type="email"
-            className={invalidCredentials ? "invalid" : ""}
+            className={invalidCredentials.show ? "invalid" : ""}
+            required={true}
           />
           <FormInput
             label={"senha"}
             name="password"
             type="password"
-            className={invalidCredentials ? "invalid" : ""}
+            className={invalidCredentials.show ? "invalid" : ""}
+            required={true}
           />
 
-          {invalidCredentials && (
-            <p className="form-input-error">
-              Email ou senha incorretos! Preencha os campos corretamente
-            </p>
+          {invalidCredentials.show && (
+            <p className="form-input-error">{invalidCredentials.msg}</p>
           )}
 
           <FormSubmit label="Login" />

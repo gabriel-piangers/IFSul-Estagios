@@ -34,10 +34,12 @@ pool.on("error", (err, client) => {
 
 const app = express();
 
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -132,13 +134,17 @@ app.post("/api/users/login", async (req, res) => {
     const query = "SELECT * FROM users WHERE email = $1 LIMIT 1";
     const result = await pool.query(query, [email]);
     if (!result || result.rowCount === 0)
-      return res.status(404).json({
+      return res.status(401).json({
         success: false,
-        msg: `User not found`,
+        msg: `invalid credentials`,
       });
     const user = result.rows[0];
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(401).json({ error: "invalid credentials" });
+    if (!isMatch)
+      return res.status(401).json({
+        success: false,
+        msg: "invalid credentials",
+      });
 
     const token = jwt.sign(
       {
@@ -206,16 +212,16 @@ app.get("/api/users/me", authenticateToken, async (req, res) => {
 // user logout
 app.post("/api/users/logout", authenticateToken, (req, res) => {
   try {
-      res.clearCookie("authToken");
-  res.status(200).json({
-    success: true,
-    msg: "Sucessfully logged out",
-  });
+    res.clearCookie("authToken");
+    res.status(200).json({
+      success: true,
+      msg: "Sucessfully logged out",
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
-      msg: "Error in logout"
-    })
+      msg: "Error in logout",
+    });
   }
 });
 
