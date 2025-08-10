@@ -225,6 +225,58 @@ app.post("/api/users/logout", authenticateToken, (req, res) => {
   }
 });
 
+app.post("/api/vagas", authenticateToken, async (req, res) => {
+  console.log(req.body)
+  if (req.user.userType === "copex") {
+    const {
+      titulo,
+      descricao,
+      cidade,
+      turno,
+      bolsa = 0,
+      tipo = "estágio",
+      empresa_nome,
+      contato,
+    } = req.body;
+    try {
+      if (! (titulo, descricao, cidade, turno, bolsa, tipo, empresa_nome, contato))
+        return res.status(400).json({
+          success: false,
+          msg: "Missing body components"
+        })
+
+      const query = `INSERT INTO vagas (titulo, descricao, cidade, turno, bolsa, tipo, empresa_nome, contato) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`;
+
+      const result = await pool.query(query, [
+        titulo,
+        descricao,
+        cidade,
+        turno,
+        bolsa,
+        tipo,
+        empresa_nome,
+        contato,
+      ]);
+
+      return res.status(201).json({
+        success: true,
+        msg: "Sucessfully registered"
+      })
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json({
+        success: false,
+        msg: "Server Error inserting into vagas",
+      });
+    }
+  } else {
+    return res.status(403).json({
+      success: false,
+      msg: "Forbidden! Only copex can acess this route!",
+    });
+  }
+});
+
 //gracefulll shut down
 process.on("SIGINT", async () => {
   console.log("Shutting down safely...");

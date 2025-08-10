@@ -5,10 +5,12 @@ export function TitleInput({
   className = "",
   color = "var(--section-bg-color)",
   required = true,
+  name = "titulo"
 }) {
   return (
     <input
       type="text"
+      name={name}
       placeholder={placeholder}
       className={`form-title-input ${className}`}
       required = {required}

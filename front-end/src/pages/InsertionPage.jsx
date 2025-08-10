@@ -11,12 +11,43 @@ import { useNavigate } from "react-router";
 
 export function InsertionPage() {
   const navigate = useNavigate();
-  const handleInsertion = (e) => {
+
+  const handleInsertion = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
     const payload = Object.fromEntries(data);
 
     console.log(payload);
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/vagas`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          titulo: payload.titulo,
+          descricao: payload.descricao,
+          cidade: payload.cidade,
+          turno: payload.turno,
+          bolsa: payload.bolsa,
+          contato: payload.contato,
+          empresa_nome: payload.empresa_nome,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        e.target.reset();
+        console.log("vaga criada com sucesso!");
+      } else {
+        return console.log(data.msg);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleReturn = () => {
@@ -67,7 +98,9 @@ export function InsertionPage() {
 
             <FormTextArea
               label="Descrição da vaga"
+              name="descricao"
               className="insert-form-textarea"
+              required={true}
             />
 
             <div className="flex-container">
