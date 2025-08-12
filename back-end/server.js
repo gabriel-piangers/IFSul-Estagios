@@ -225,13 +225,38 @@ app.post("/api/users/logout", authenticateToken, (req, res) => {
   }
 });
 
+//get vagas
+app.get("api/vagas", async (req,res) => {
+  try {
+    const result = await pool.query("SELECT * FROM vagas")
+    if (result.rowCount <=0) return res.status(404).json({
+      success: true,
+      msg: "No content found",
+      vagas: []
+    })
+
+    return res.status(200).json({
+      success: true,
+      vagas: result.rows
+    })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      msg: "Error in query"
+    })
+  }
+})
+
+//insert vaga
 app.post("/api/vagas", authenticateToken, async (req, res) => {
-  console.log(req.body)
   if (req.user.userType === "copex") {
     const {
       titulo,
       descricao,
       cidade,
+      cursoID,
       turno,
       bolsa = 0,
       tipo = "estágio",
@@ -239,13 +264,13 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
       contato,
     } = req.body;
     try {
-      if (! (titulo, descricao, cidade, turno, bolsa, tipo, empresa_nome, contato))
+      if (!titulo || !descricao || !cidade || !turno || !empresa_nome || !contato || !cursoID) {
         return res.status(400).json({
-          success: false,
-          msg: "Missing body components"
-        })
-
-      const query = `INSERT INTO vagas (titulo, descricao, cidade, turno, bolsa, tipo, empresa_nome, contato) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`;
+            success: false,
+            msg: "Missing required body components"
+        });
+      }
+      const query = `INSERT INTO vagas (titulo, descricao, cidade, turno, bolsa, tipo, empresa_nome, contato) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`;
 
       const result = await pool.query(query, [
         titulo,
@@ -258,6 +283,9 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
         contato,
       ]);
 
+      const newVagaID = result.rows[0].id
+
+      await pool.query('INSERT INTO vagas_cursos (vaga_id, curso_id) VALUES ($1, $2)', [newVagaID, cursoID])
       return res.status(201).json({
         success: true,
         msg: "Sucessfully registered"
@@ -286,4 +314,4 @@ process.on("SIGINT", async () => {
 
 app.listen(port, async () => {
   console.log(`Running on port ${port}`);
-});
+}); 
