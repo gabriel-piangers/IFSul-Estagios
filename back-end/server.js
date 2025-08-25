@@ -228,7 +228,11 @@ app.post("/api/users/logout", authenticateToken, (req, res) => {
 //get vagas
 app.get("/api/vagas", async (req,res) => {
   try {
-    let query = "SELECT DISTINCT v.* FROM vagas v "
+    let query = `
+      SELECT v.*, c.nome AS curso_nome FROM vagas v 
+      JOIN vagas_cursos vc ON v.id = vc.vaga_id 
+      JOIN cursos c ON vc.curso_id = c.id 
+      `
     const params = []
     const whereConditions = []
 
@@ -245,7 +249,6 @@ app.get("/api/vagas", async (req,res) => {
         msg: "Error curso_id must be a number"
       })
 
-      query += " JOIN vagas_cursos vc ON v.id = vc.vaga_id "
       whereConditions.push(`vc.curso_id = $${params.length+1}`)
       params.push(cursoId)
     }
@@ -253,9 +256,8 @@ app.get("/api/vagas", async (req,res) => {
     if(whereConditions.length>0) {
       query += " WHERE " + whereConditions.join(" AND ")
     }
-
+    console.log(query)
     const result = await pool.query(query, params)
-
     return res.status(200).json({
       success: true,
       vagas: result.rows

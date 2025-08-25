@@ -20,13 +20,14 @@ export function RegisterPage() {
       const data = await response.json();
 
       if (data.success) {
-        return !data.exists;
+        return data;
       } else {
         console.log(`Server error: ${data.msg}`);
-        return false;
+        return data
       }
     } catch (error) {
       console.log(`Error checking email: ${error}`);
+      return false
     }
   };
 
@@ -38,13 +39,16 @@ export function RegisterPage() {
     const isValidEmail = validateEmail(payload.email)
 
     isValidPassword ? setValidPassword(true) : setValidPassword(false)
-    isValidEmail? setValidEmail(true) : setValidEmail({ 
+    isValidEmail? setValidEmail({status: true}) : setValidEmail({ 
       status: false, msg: "Utilize seu email institucional" 
     });
 
     if (isValidEmail && isValidPassword) {
-      if (await checkEmail(payload.email)) {
-        setValidEmail({ status: true });
+      const emailData = await checkEmail(payload.email)
+      if (emailData) {
+        if (emailData.exists) return setValidEmail({ status: false, msg: "Email já registrado" });
+
+        setValidEmail({status: true})
 
         const response = await fetch(`${import.meta.env.VITE_API_URL}/users`, {
           method: "POST",
@@ -71,10 +75,8 @@ export function RegisterPage() {
 
 
       } else {
-        setValidEmail({ status: false, msg: "Email já registrado" });
+        console.log("Erro ao verrificar o email")
       }
-
-    
     }
   };
 

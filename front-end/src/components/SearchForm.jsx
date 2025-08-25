@@ -17,7 +17,7 @@ export function SearchForm({
       e.preventDefault();
       const data = new FormData(e.target);
       const payload = Object.fromEntries(data);
-      navigate(`/search?cidade=${payload.cidade}&curso=${payload.curso}`);
+      navigate(`/search?cidade=${payload.cidade}&cursoId=${payload.curso}`);
     };
 
   return (

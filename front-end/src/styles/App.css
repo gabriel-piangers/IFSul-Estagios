@@ -375,6 +375,12 @@ body {
   margin-bottom: 1rem;
 }
 
+.jobs-not-found {
+  width: 100%;
+  text-align: center;
+  margin-top: 10%;
+}
+
 .copex-buttons {
   display: flex;
   width: 100%;

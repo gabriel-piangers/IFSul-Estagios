@@ -16,7 +16,6 @@
 
 .insert-form {
     gap: 1rem;
-    max-width: none;
     padding: 1.6rem min(5%, 4rem);
     max-width: 900px;
 }
@@ -57,3 +56,22 @@
     font-size: 1.1rem;
 }
 
+.insert-form-error {
+    color: white;
+    width: 100%;
+    font-weight: 400;
+    padding: 1rem;
+    font-size: 0.9rem;
+    background-color: rgb(233, 85, 85);
+    margin-top: 2rem;
+}
+
+.insert-form-success {
+    color: white;
+    width: 100%;
+    font-weight: 400;
+    padding: 1rem;
+    font-size: 0.9rem;
+    background-color: rgb(85, 233, 104);
+    margin-top: 2rem;
+}
