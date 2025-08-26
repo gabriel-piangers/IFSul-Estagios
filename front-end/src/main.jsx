@@ -11,6 +11,7 @@ import { RequireAuth } from "./components/RequireAuth.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import "./styles/App.css";
 import { InsertionPage } from "./pages/InsertionPage.jsx";
+import { CopexPosts } from "./pages/CopexPosts.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -23,8 +24,9 @@ createRoot(document.getElementById("root")).render(
         <Route path="/search" element={<SearchPage />} />
 
         <Route element={<RequireAuth roles={["copex"]} />}>
-        <Route path="/copex" element={<CopexDashboard/>}/>
-        <Route path="/insert" element={<InsertionPage/>}/>
+          <Route path="/copex" element={<CopexDashboard />} />
+          <Route path="/insert" element={<InsertionPage />} />
+          <Route path="/posts" element={<CopexPosts />} />
         </Route>
 
         <Route path="/under-development" element={<UnderDevelopment />} />

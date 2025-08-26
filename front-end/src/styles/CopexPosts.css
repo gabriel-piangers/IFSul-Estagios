@@ -1,0 +1,49 @@
+#post-search {
+  width: 100%;
+  background-color: var(--section-bg-color);
+}
+
+.post-job-container {
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  transition: all 0.2s;
+  background-color: #f6f6f6;
+  border-radius: 10px;
+  margin: 0.5rem;
+}
+
+.post-job-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  gap: 2rem;
+}
+
+.post-job-menu {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.post-job-option {
+  width: 20px;
+  transition: all 0.2s;
+}
+.post-job-option:hover {
+  cursor: pointer;
+  scale: 120%;
+}
+
+.post-job-title {
+  width: 60%;
+}
+
+.post-job-company {
+  width: 20%;
+}
+
+.post-job-p {
+  width: 20%;
+}
