@@ -8,14 +8,25 @@ import { Header } from "../components/Header";
 import { cidadeOpt, cursoOpt, turnoOpt } from "../scripts/memoDB";
 import "../styles/InsertionPage.css";
 import { useNavigate } from "react-router";
+import { useState } from "react";
 
 export function InsertionPage() {
   const navigate = useNavigate();
+  const [error, setError] = useState({ status: false, msg: "" });
+  const [success, setSuccess] = useState(false)
 
   const handleInsertion = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
     const payload = Object.fromEntries(data);
+
+    setSuccess(false)
+    setError({ status: false, msg: "" });
+
+    if (payload.bolsa < 0) {
+      setError({ status: true, msg: "Bolsa não pode ser negativa" });
+      return;
+    }
 
     console.log(payload);
 
@@ -30,8 +41,9 @@ export function InsertionPage() {
           titulo: payload.titulo,
           descricao: payload.descricao,
           cidade: payload.cidade,
+          cursoID: payload.curso,
           turno: payload.turno,
-          bolsa: payload.bolsa,
+          bolsa: payload.bolsa || 0,
           contato: payload.contato,
           empresa_nome: payload.empresa_nome,
         }),
@@ -41,7 +53,7 @@ export function InsertionPage() {
 
       if (data.success) {
         e.target.reset();
-        console.log("vaga criada com sucesso!");
+        setSuccess(true);
       } else {
         return console.log(data.msg);
       }
@@ -114,6 +126,9 @@ export function InsertionPage() {
                 className="insert-form-submit"
               />
             </div>
+
+            {error.status && <p className="insert-form-error">{error.msg}</p>}
+            {success && <p className="insert-form-success">Vaga criada com sucesso!</p>}  
           </form>
         </section>
       </main>

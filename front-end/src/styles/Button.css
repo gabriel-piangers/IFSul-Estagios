@@ -13,7 +13,7 @@
 
 .std-button:hover {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.05);
+
     scale: 102%;
 }
 
@@ -30,3 +30,17 @@
     background-color: var(--section-bg-color);
     border: 1px solid black;
 }
+
+.light-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.green-button {
+  background-color: var(--button-color);
+  color: white;
+}
+
+.green-button:hover {
+  background-color: var(--button-hover);
+}
+

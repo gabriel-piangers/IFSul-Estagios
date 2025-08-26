@@ -40,10 +40,10 @@ export function CopexPosts() {
               <div className={`post-job-container`} key={vaga.id}>
                 <img src={jobIcon} alt="Job icon" className="aside-job-icon" />
                 <div className="post-job-info">
-                  <h3 className="aside-job-title">{vaga.titulo}</h3>
-                  <p className="aside-job-company">{vaga.empresa}</p>
-                  <p className="aside-job-p">{vaga.cidade}</p>
-                  <p className="aside-job-p">{vaga.turno}</p>
+                  <h3 className="post-job-title">{vaga.titulo}</h3>
+                  <p className="post-job-company">{vaga.empresa}</p>
+                  <p className="post-job-p">{vaga.cidade}</p>
+                  <p className="post-job-p">{vaga.turno}</p>
                 </div>
                 <div className="post-job-menu">
                   <img

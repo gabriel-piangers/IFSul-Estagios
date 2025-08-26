@@ -226,15 +226,38 @@ app.post("/api/users/logout", authenticateToken, (req, res) => {
 });
 
 //get vagas
-app.get("api/vagas", async (req,res) => {
+app.get("/api/vagas", async (req,res) => {
   try {
-    const result = await pool.query("SELECT * FROM vagas")
-    if (result.rowCount <=0) return res.status(404).json({
-      success: true,
-      msg: "No content found",
-      vagas: []
-    })
+    let query = `
+      SELECT v.*, c.nome AS curso_nome FROM vagas v 
+      JOIN vagas_cursos vc ON v.id = vc.vaga_id 
+      JOIN cursos c ON vc.curso_id = c.id 
+      `
+    const params = []
+    const whereConditions = []
 
+    if(req.query.cidade) {
+      whereConditions.push(`v.cidade = $${params.length+1} `)
+      params.push(req.query.cidade)
+    }
+
+    if(req.query.curso_id) {
+      const cursoId = parseInt(req.query.curso_id)
+
+      if(isNaN(cursoId)) return res.status(400).json({
+        success:false,
+        msg: "Error curso_id must be a number"
+      })
+
+      whereConditions.push(`vc.curso_id = $${params.length+1}`)
+      params.push(cursoId)
+    }
+
+    if(whereConditions.length>0) {
+      query += " WHERE " + whereConditions.join(" AND ")
+    }
+    console.log(query)
+    const result = await pool.query(query, params)
     return res.status(200).json({
       success: true,
       vagas: result.rows
@@ -248,6 +271,7 @@ app.get("api/vagas", async (req,res) => {
     })
   }
 })
+
 
 //insert vaga
 app.post("/api/vagas", authenticateToken, async (req, res) => {

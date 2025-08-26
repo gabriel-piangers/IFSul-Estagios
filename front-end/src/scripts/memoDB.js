@@ -1,8 +1,8 @@
 export const campusOpt = [{ name: "Sapiranga", value: "sg" }];
 
 export const cursoOpt = [
-    { name: "Informática", value: "Informática" },
-    { name: "Eletromecânica", value: "Eletromecânica" },
+    { name: "Informática", value: "1" },
+    { name: "Eletromecânica", value: "2" },
   ];
 
 export const cidadeOpt = [

@@ -41,6 +41,7 @@ body {
   width: 100%;
   display: flex;
   align-items: center;
+  gap: 1rem;
 }
 
 
@@ -373,6 +374,12 @@ body {
 
 .job-display-p {
   margin-bottom: 1rem;
+}
+
+.jobs-not-found {
+  width: 100%;
+  text-align: center;
+  margin-top: 10%;
 }
 
 .copex-buttons {

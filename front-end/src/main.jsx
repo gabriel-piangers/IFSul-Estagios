@@ -23,9 +23,11 @@ createRoot(document.getElementById("root")).render(
 
         <Route path="/search" element={<SearchPage />} />
 
-        <Route path="/copex" element={<CopexDashboard/>}/>
-        <Route path="/insert" element={<InsertionPage/>}/>
-        <Route path="/posts" element={<CopexPosts/>}></Route>
+        <Route element={<RequireAuth roles={["copex"]} />}>
+          <Route path="/copex" element={<CopexDashboard />} />
+          <Route path="/insert" element={<InsertionPage />} />
+          <Route path="/posts" element={<CopexPosts />} />
+        </Route>
 
         <Route path="/under-development" element={<UnderDevelopment />} />
         <Route path="/unautorized" element={<Unautorized />} />
