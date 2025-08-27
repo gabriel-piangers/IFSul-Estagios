@@ -380,6 +380,9 @@ body {
   width: 100%;
   text-align: center;
   margin-top: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .copex-buttons {

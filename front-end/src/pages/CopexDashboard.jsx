@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import addIcon from "../assets/plusIcon.svg";
 import LayersIcon from "../assets/Layers.svg";
 
+
 export function CopexDashboard() {
   const navigate = useNavigate()
 
@@ -12,7 +13,7 @@ export function CopexDashboard() {
   };
 
   const handleCheckVagas = () => {
-    navigate('/search')
+    navigate('/posts')
   };
 
   return (

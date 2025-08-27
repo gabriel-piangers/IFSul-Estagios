@@ -14,7 +14,8 @@ export function SearchPage() {
   const [selectedJob, setSelectedJob] = useState(null)  
   const location = useLocation()
   let searchCity = null
-  let searchCourse = null
+  const [error, setError] = useState({status: false, msg: ""})
+  const [loading, setLoading] = useState(false)
 
   const getJobs = async (url) => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}${url}`)
@@ -30,6 +31,7 @@ export function SearchPage() {
 
   useEffect( () => {
     try {
+      setLoading(true)
       const searchParams = new URLSearchParams(location.search)
       let searchCity = searchParams.get("cidade") || null
       let searchCourse = searchParams.get("cursoId") || null
@@ -40,11 +42,14 @@ export function SearchPage() {
       if(searchCourse) params.push(`curso_id=${searchCourse}`)
 
       if (params.length>0) url += "?" + params.join("&")
-      console.log(url)
       getJobs(url)
+      setError({status: false})
     } catch (error) {
       console.log("erro ao carregar vagas: ", error)
       setMatchingJobs([])
+      setError({status: true, msg: error})
+    } finally {
+      setLoading(false)
     }
   }, [location])
 
@@ -55,14 +60,20 @@ export function SearchPage() {
       setSelectedJob(null)
     }
   }, [matchingJobs])
-  
-  console.log(selectedJob)
+
   return (
     <>
       <Header />
       <main className="page-main">
         <SearchForm cidades={cidadeOpt} cursos={cursoOpt}/>
-        {matchingJobs.length > 0 ? (
+        {loading ? (
+          <h2 className="jobs-not-found">Carregando...</h2>
+        ) : error.status ? (
+          <div className="jobs-not-found">
+            <h2>Ocorreu um erro ao buscar buscar por vagas.</h2>
+            <p>Entre em contato com nosso suporte!.</p>
+          </div>
+        ) : matchingJobs.length > 0 ? (
                   <div className="search-results">
                   <aside className="search-aside">
                     <p className="search-results-info">
@@ -99,7 +110,7 @@ export function SearchPage() {
                     <img src={jobIcon} alt="Job icon" className="job-display-icon" />
                     <h2 className="job-display-title">{selectedJob.titulo}</h2>
                     <p className="job-display-p-thin">
-                      {selectedJob.empresa} • {selectedJob.cidade}
+                      {selectedJob.empresa_nome} • {selectedJob.cidade}
                     </p>
         
                     <button className="form-submit job-display-button">
