@@ -9,11 +9,13 @@ import { cidadeOpt, cursoOpt, turnoOpt } from "../scripts/memoDB";
 import "../styles/InsertionPage.css";
 import { useNavigate } from "react-router";
 import { useState } from "react";
+import { useAuth } from "../contexts/AuthProvider";
 
 export function InsertionPage() {
   const navigate = useNavigate();
   const [error, setError] = useState({ status: false, msg: "" });
   const [success, setSuccess] = useState(false)
+  const {user} = useAuth()
 
   const handleInsertion = async (e) => {
     e.preventDefault();
@@ -46,6 +48,7 @@ export function InsertionPage() {
           bolsa: payload.bolsa || 0,
           contato: payload.contato,
           empresa_nome: payload.empresa_nome,
+          userID: user.id
         }),
       });
 

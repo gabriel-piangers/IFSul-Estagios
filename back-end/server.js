@@ -253,10 +253,20 @@ app.get("/api/vagas", async (req,res) => {
       params.push(cursoId)
     }
 
+    if(req.query.posted_by) {
+      const postedBy = parseInt(req.query.posted_by)
+      if(isNaN(postedBy)) return res.status(400).json({
+        success:false,
+        msg: "Error posted_by must be a number"
+      })
+
+      whereConditions.push(`v.posted_by = $${params.length+1}`)
+      params.push(postedBy)
+    }
+
     if(whereConditions.length>0) {
       query += " WHERE " + whereConditions.join(" AND ")
     }
-    console.log(query)
     const result = await pool.query(query, params)
     return res.status(200).json({
       success: true,
@@ -286,15 +296,16 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
       tipo = "estágio",
       empresa_nome,
       contato,
+      userID,
     } = req.body;
     try {
-      if (!titulo || !descricao || !cidade || !turno || !empresa_nome || !contato || !cursoID) {
+      if (!titulo || !descricao || !cidade || !turno || !empresa_nome || !contato || !cursoID || !userID) {
         return res.status(400).json({
             success: false,
             msg: "Missing required body components"
         });
       }
-      const query = `INSERT INTO vagas (titulo, descricao, cidade, turno, bolsa, tipo, empresa_nome, contato) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`;
+      const query = `INSERT INTO vagas (titulo, descricao, cidade, turno, bolsa, tipo, empresa_nome, contato, posted_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`;
 
       const result = await pool.query(query, [
         titulo,
@@ -305,6 +316,7 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
         tipo,
         empresa_nome,
         contato,
+        userID,
       ]);
 
       const newVagaID = result.rows[0].id
@@ -328,6 +340,39 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
     });
   }
 });
+
+//delete vaga
+app.delete('/api/vagas/:id', authenticateToken, async (req,res) => {
+  if(req.user.userType !== 'copex') return res.status(403).json({
+    success: false,
+    msg: "Forbidden! Only copex can acess this route!"
+  })
+
+  const vagaId = parseInt(req.params.id)
+  if(isNaN(vagaId)) return res.status(400).json({
+    success: false,
+    msg: "Invalid vaga id"
+  })
+
+  try {
+    const result = await pool.query('DELETE FROM vagas WHERE id = $1 RETURNING *', [vagaId])
+    if(result.rowCount === 0) return res.status(404).json({
+      success: false,
+      msg: `No vaga found with id ${vagaId}`
+    })
+
+    return res.status(200).json({
+      success: true,
+      msg: `Vaga with id ${vagaId} deleted sucessfully`
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      success: false,
+      msg: "Server error deleting vaga"
+    })
+  }
+})
 
 //gracefulll shut down
 process.on("SIGINT", async () => {
