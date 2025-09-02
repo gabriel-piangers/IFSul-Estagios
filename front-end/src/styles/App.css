@@ -32,7 +32,6 @@ body {
   background-color: var(--bg-color);
 }
 
-
 .overflow-hidden {
   overflow: hidden;
 }
@@ -43,7 +42,6 @@ body {
   align-items: center;
   gap: 1rem;
 }
-
 
 .login-main {
   background-color: var(--section-bg-color);
@@ -196,6 +194,18 @@ body {
   scale: 102%;
 }
 
+.form-select {
+  appearance: none;
+  -webkit-appearance: none; /* Safari */
+  -moz-appearance: none; /* Firefox */
+  padding-right: 2.5rem; /* espaço pro ícone */
+  background: var(--section-bg-color)
+    url("data:image/svg+xml;utf8,<svg fill='black' xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><path d='M1.5 5l6.5 6 6.5-6z'/></svg>")
+    no-repeat right 0.8rem center;
+  background-size: 0.8rem;
+  cursor: pointer;
+}
+
 .std-header {
   width: 100%;
   background-color: var(--section-bg-color);
@@ -262,7 +272,7 @@ body {
 .page-main {
   background-color: var(--section-bg-color);
   width: 100%;
-  height:  100%;
+  height: 100%;
   min-height: calc(99.9vh - 80px);
   max-width: 1100px;
   margin: auto;

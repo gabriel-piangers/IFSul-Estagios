@@ -5,14 +5,14 @@ import addIcon from "../assets/plusIcon.svg";
 import LayersIcon from "../assets/Layers.svg";
 
 export function CopexDashboard() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleAddVaga = () => {
-    navigate('/insert')
+    navigate("/insert");
   };
 
   const handleCheckVagas = () => {
-    navigate('/search')
+    navigate("/posts");
   };
 
   return (
@@ -20,7 +20,6 @@ export function CopexDashboard() {
       <Header />
 
       <main className="copex-main">
-
         <div className="copex-buttons">
           <LightButton
             icon={addIcon}
