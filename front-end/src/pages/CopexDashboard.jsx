@@ -3,17 +3,17 @@ import { LightButton } from "../components/LightButton";
 import { useNavigate } from "react-router";
 import addIcon from "../assets/plusIcon.svg";
 import LayersIcon from "../assets/Layers.svg";
-
+import "../styles/CopexDashboard.css";
 
 export function CopexDashboard() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleAddVaga = () => {
-    navigate('/insert')
+    navigate("/insert");
   };
 
   const handleCheckVagas = () => {
-    navigate('/posts')
+    navigate("/posts");
   };
 
   return (
@@ -21,6 +21,12 @@ export function CopexDashboard() {
       <Header />
 
       <main className="copex-main">
+        <h1 className="copex-title">Bem Vindo(a)</h1>
+
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate,
+          quos?
+        </p>
 
         <div className="copex-buttons">
           <LightButton
@@ -28,7 +34,7 @@ export function CopexDashboard() {
             iconAlt="Icone de mais"
             label="Adicionar Vaga"
             onClick={handleAddVaga}
-            style={{ width: "25%" }}
+            style={{ width: "50%", height: "4rem" }}
           />
 
           <LightButton
@@ -36,7 +42,7 @@ export function CopexDashboard() {
             iconAlt="Icone de camadas"
             label="Ver Vagas publicadas"
             onClick={handleCheckVagas}
-            style={{ width: "25%" }}
+            style={{ width: "50%", height: "4rem" }}
           />
         </div>
       </main>

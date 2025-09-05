@@ -4,8 +4,8 @@ export function GreenButton({
   onClick = () => console.log("clicked"),
   className = "",
   style = {},
-  label = "Botão",
-  icon,
+  label = false,
+  icon = false,
   iconAlt = "button icon",
 }) {
   return (
@@ -15,7 +15,7 @@ export function GreenButton({
       style={style}
     >
       {icon && <img src={icon} alt={iconAlt} className="std-button-icon" />}
-      <p className="std-button-p">{label}</p>
+      {label && <p className="std-button-p">{label}</p>}
     </button>
   );
 }
