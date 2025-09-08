@@ -6,6 +6,7 @@ export function FormSelect({
   id,
   options = [],
   required,
+  defaultValue = "",
   className = "",
   color = "var(--section-bg-color)",
 }) {
@@ -16,14 +17,14 @@ export function FormSelect({
       <select
         name={name}
         id={id}
-        defaultValue={null}
         className={`form-input form-select ${className}`}
+        defaultValue={defaultValue}
         required={required ? true : undefined}
         style={{
           backgroundColor: color,
         }}
       >
-        <option value={null} defaultChecked></option>
+        <option value={null}></option>
         {options.map((opt) => {
           return (
             <option value={opt.value} key={opt.value}>

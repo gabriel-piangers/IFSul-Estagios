@@ -226,62 +226,62 @@ app.post("/api/users/logout", authenticateToken, (req, res) => {
 });
 
 //get vagas
-app.get("/api/vagas", async (req,res) => {
+app.get("/api/vagas", async (req, res) => {
   try {
     let query = `
-      SELECT v.*, c.nome AS curso_nome FROM vagas v 
+      SELECT v.*, c.nome AS curso_nome, c.id AS curso_id FROM vagas v 
       JOIN vagas_cursos vc ON v.id = vc.vaga_id 
       JOIN cursos c ON vc.curso_id = c.id 
-      `
-    const params = []
-    const whereConditions = []
+      `;
+    const params = [];
+    const whereConditions = [];
 
-    if(req.query.cidade) {
-      whereConditions.push(`v.cidade = $${params.length+1} `)
-      params.push(req.query.cidade)
+    if (req.query.cidade) {
+      whereConditions.push(`v.cidade = $${params.length + 1} `);
+      params.push(req.query.cidade);
     }
 
-    if(req.query.curso_id) {
-      const cursoId = parseInt(req.query.curso_id)
+    if (req.query.curso_id) {
+      const cursoId = parseInt(req.query.curso_id);
 
-      if(isNaN(cursoId)) return res.status(400).json({
-        success:false,
-        msg: "Error curso_id must be a number"
-      })
+      if (isNaN(cursoId))
+        return res.status(400).json({
+          success: false,
+          msg: "Error curso_id must be a number",
+        });
 
-      whereConditions.push(`vc.curso_id = $${params.length+1}`)
-      params.push(cursoId)
+      whereConditions.push(`vc.curso_id = $${params.length + 1}`);
+      params.push(cursoId);
     }
 
-    if(req.query.posted_by) {
-      const postedBy = parseInt(req.query.posted_by)
-      if(isNaN(postedBy)) return res.status(400).json({
-        success:false,
-        msg: "Error posted_by must be a number"
-      })
+    if (req.query.posted_by) {
+      const postedBy = parseInt(req.query.posted_by);
+      if (isNaN(postedBy))
+        return res.status(400).json({
+          success: false,
+          msg: "Error posted_by must be a number",
+        });
 
-      whereConditions.push(`v.posted_by = $${params.length+1}`)
-      params.push(postedBy)
+      whereConditions.push(`v.posted_by = $${params.length + 1}`);
+      params.push(postedBy);
     }
 
-    if(whereConditions.length>0) {
-      query += " WHERE " + whereConditions.join(" AND ")
+    if (whereConditions.length > 0) {
+      query += " WHERE " + whereConditions.join(" AND ");
     }
-    const result = await pool.query(query, params)
+    const result = await pool.query(query, params);
     return res.status(200).json({
       success: true,
-      vagas: result.rows
-    })
-
+      vagas: result.rows,
+    });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({
       success: false,
-      msg: "Error in query"
-    })
+      msg: "Error in query",
+    });
   }
-})
-
+});
 
 //insert vaga
 app.post("/api/vagas", authenticateToken, async (req, res) => {
@@ -296,13 +296,20 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
       tipo = "estágio",
       empresa_nome,
       contato,
-      userID,
     } = req.body;
     try {
-      if (!titulo || !descricao || !cidade || !turno || !empresa_nome || !contato || !cursoID || !userID) {
+      if (
+        !titulo ||
+        !descricao ||
+        !cidade ||
+        !turno ||
+        !empresa_nome ||
+        !contato ||
+        !cursoID
+      ) {
         return res.status(400).json({
-            success: false,
-            msg: "Missing required body components"
+          success: false,
+          msg: "Missing required body components",
         });
       }
       const query = `INSERT INTO vagas (titulo, descricao, cidade, turno, bolsa, tipo, empresa_nome, contato, posted_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`;
@@ -316,18 +323,21 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
         tipo,
         empresa_nome,
         contato,
-        userID,
+        req.user.userId,
       ]);
 
-      const newVagaID = result.rows[0].id
+      const newVagaID = result.rows[0].id;
 
-      await pool.query('INSERT INTO vagas_cursos (vaga_id, curso_id) VALUES ($1, $2)', [newVagaID, cursoID])
+      await pool.query(
+        "INSERT INTO vagas_cursos (vaga_id, curso_id) VALUES ($1, $2)",
+        [newVagaID, cursoID]
+      );
       return res.status(201).json({
         success: true,
-        msg: "Sucessfully registered"
-      })
+        msg: "Sucessfully registered",
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return res.status(500).json({
         success: false,
         msg: "Server Error inserting into vagas",
@@ -341,38 +351,116 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
   }
 });
 
-//delete vaga
-app.delete('/api/vagas/:id', authenticateToken, async (req,res) => {
-  if(req.user.userType !== 'copex') return res.status(403).json({
-    success: false,
-    msg: "Forbidden! Only copex can acess this route!"
-  })
+//update vaga
+app.put("/api/vagas/:id", authenticateToken, async (req, res) => {
+  if (req.user.userType !== "copex")
+    return res.status(403).json({
+      success: false,
+      msg: "Forbidden! Only copex can acess this route!",
+    });
 
-  const vagaId = parseInt(req.params.id)
-  if(isNaN(vagaId)) return res.status(400).json({
-    success: false,
-    msg: "Invalid vaga id"
-  })
+  const vagaId = parseInt(req.params.id);
 
   try {
-    const result = await pool.query('DELETE FROM vagas WHERE id = $1 RETURNING *', [vagaId])
-    if(result.rowCount === 0) return res.status(404).json({
-      success: false,
-      msg: `No vaga found with id ${vagaId}`
-    })
+    const {
+      titulo,
+      descricao,
+      cidade,
+      cursoId,
+      turno,
+      bolsa = 0,
+      tipo = "estágio",
+      empresa_nome,
+      contato,
+    } = req.body;
+
+    if (
+      !titulo ||
+      !descricao ||
+      !cidade ||
+      !turno ||
+      !empresa_nome ||
+      !contato ||
+      !cursoId
+    ) {
+      return res.status(400).json({
+        success: false,
+        msg: "Missing required body components",
+      });
+    }
+
+    const query = `
+  UPDATE vagas SET titulo = $1, descricao = $2, cidade = $3, turno = $4, bolsa = $5, tipo = $6, empresa_nome = $7, contato = $8 WHERE id = $9;
+`;
+    const result = await pool.query(query, [
+      titulo,
+      descricao,
+      cidade,
+      turno,
+      bolsa,
+      tipo,
+      empresa_nome,
+      contato,
+      vagaId,
+    ]);
+
+    await pool.query("DELETE FROM vagas_cursos WHERE vaga_id = $1;", [vagaId]);
+    await pool.query(
+      "INSERT INTO vagas_cursos (vaga_id, curso_id) VALUES ($1, $2);",
+      [vagaId, cursoId]
+    );
 
     return res.status(200).json({
       success: true,
-      msg: `Vaga with id ${vagaId} deleted sucessfully`
-    })
+      msg: "Sucessfully updated",
+    });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json({
       success: false,
-      msg: "Server error deleting vaga"
-    })
+      msg: "Server Error updating vagas",
+    });
   }
-})
+});
+
+//delete vaga
+app.delete("/api/vagas/:id", authenticateToken, async (req, res) => {
+  if (req.user.userType !== "copex")
+    return res.status(403).json({
+      success: false,
+      msg: "Forbidden! Only copex can acess this route!",
+    });
+
+  const vagaId = parseInt(req.params.id);
+  if (isNaN(vagaId))
+    return res.status(400).json({
+      success: false,
+      msg: "Invalid vaga id",
+    });
+
+  try {
+    const result = await pool.query(
+      "DELETE FROM vagas WHERE id = $1 RETURNING *",
+      [vagaId]
+    );
+    if (result.rowCount === 0)
+      return res.status(404).json({
+        success: false,
+        msg: `No vaga found with id ${vagaId}`,
+      });
+
+    return res.status(200).json({
+      success: true,
+      msg: `Vaga with id ${vagaId} deleted sucessfully`,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      msg: "Server error deleting vaga",
+    });
+  }
+});
 
 //gracefulll shut down
 process.on("SIGINT", async () => {
@@ -383,4 +471,4 @@ process.on("SIGINT", async () => {
 
 app.listen(port, async () => {
   console.log(`Running on port ${port}`);
-}); 
+});

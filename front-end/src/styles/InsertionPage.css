@@ -14,7 +14,7 @@
     margin-bottom: 1rem;
 }
 
-.insert-form {
+#insert-form {
     gap: 1rem;
     padding: 1.6rem min(5%, 4rem);
     max-width: 900px;

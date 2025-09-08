@@ -5,6 +5,7 @@ export function TitleInput({
   className = "",
   color = "var(--section-bg-color)",
   required = true,
+  defaultValue = "",
   name = "titulo"
 }) {
   return (
@@ -12,6 +13,7 @@ export function TitleInput({
       type="text"
       name={name}
       placeholder={placeholder}
+      defaultValue={defaultValue}
       className={`form-title-input ${className}`}
       required = {required}
       style={{
