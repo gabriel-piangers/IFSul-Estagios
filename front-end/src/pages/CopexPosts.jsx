@@ -187,13 +187,13 @@ export function CopexPosts() {
                     <img
                       src={editar}
                       alt="icone de editar"
-                      className="post-job-option edit-icon"
+                      className="post-job-option primary-hover"
                       onClick={() => handleOpenUpdate(vaga)}
                     />
                     <img
                       src={lixeira}
                       alt="icone de excluir"
-                      className="post-job-option exclude-icon"
+                      className="post-job-option secondary-hover"
                       onClick={() => setDeleteAlert(true)}
                     />
                   </div>

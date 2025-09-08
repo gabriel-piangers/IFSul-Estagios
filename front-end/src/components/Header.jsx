@@ -46,13 +46,13 @@ export function Header() {
               <img
                 src={homeIcon}
                 alt="house-icon"
-                className="header-action"
+                className="header-action primary-hover"
                 onClick={() => navigate("/copex")}
               />
               <img
                 src={logoutIcon}
                 alt="logout"
-                className="header-action"
+                className="header-action secondary-hover"
                 onClick={handleLogout}
               />
             </>
