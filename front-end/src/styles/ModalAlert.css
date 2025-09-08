@@ -1,6 +1,6 @@
 @import url("App.css");
 
-.confirm-backdrop {
+.modal-backdrop {
     position: fixed;
     top: 0;
     left: 0;
@@ -13,7 +13,7 @@
     align-items: center;
 }
 
-.confirm-panel {
+.modal-panel {
     background-color: white;
     padding: 2rem;
     border-radius: 1rem;

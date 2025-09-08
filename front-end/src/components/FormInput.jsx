@@ -7,6 +7,7 @@ export function FormInput({
   className = "",
   required = false,
   color = "var(--section-bg-color)",
+  defaultValue = "",
 }) {
   if (!name) name = label;
   return (
@@ -17,6 +18,7 @@ export function FormInput({
         id={name}
         className={`form-input ${className}`}
         placeholder=""
+        defaultValue={defaultValue}
         required={required ? true : undefined}
         style={{
           backgroundColor: color,

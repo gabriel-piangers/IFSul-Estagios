@@ -71,7 +71,7 @@ export function SearchPage() {
         ) : error.status ? (
           <div className="jobs-not-found">
             <h2>Ocorreu um erro ao buscar buscar por vagas.</h2>
-            <p>Entre em contato com nosso suporte!.</p>
+            <p>Entre em contato com nosso suporte!</p>
           </div>
         ) : matchingJobs.length > 0 ? (
                   <div className="search-results">
