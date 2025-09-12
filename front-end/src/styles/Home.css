@@ -31,6 +31,19 @@
   max-width: 500px;
 }
 
+.home-right-link {
+  display: block;
+  padding: 0.6rem 1rem;
+  text-decoration: none;
+  width: 100%;
+  text-align: center;
+  color: rgb(26, 90, 228);
+}
+
+.home-right-link:hover {
+  text-decoration: underline;
+}
+
 #home-form {
   background-color: var(--bg-color);
   display: flex;

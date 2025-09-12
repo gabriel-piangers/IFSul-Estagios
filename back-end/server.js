@@ -296,6 +296,7 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
       tipo = "estágio",
       empresa_nome,
       contato,
+      link,
     } = req.body;
     try {
       if (
@@ -312,7 +313,7 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
           msg: "Missing required body components",
         });
       }
-      const query = `INSERT INTO vagas (titulo, descricao, cidade, turno, bolsa, tipo, empresa_nome, contato, posted_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`;
+      const query = `INSERT INTO vagas (titulo, descricao, cidade, turno, bolsa, tipo, empresa_nome, contato, posted_by, link) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id`;
 
       const result = await pool.query(query, [
         titulo,
@@ -324,6 +325,7 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
         empresa_nome,
         contato,
         req.user.userId,
+        link,
       ]);
 
       const newVagaID = result.rows[0].id;

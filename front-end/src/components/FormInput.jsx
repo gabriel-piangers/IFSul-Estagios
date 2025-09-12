@@ -8,6 +8,7 @@ export function FormInput({
   required = false,
   color = "var(--section-bg-color)",
   defaultValue = "",
+  disabled = false,
 }) {
   if (!name) name = label;
   return (
@@ -16,22 +17,23 @@ export function FormInput({
         type={type}
         name={name}
         id={name}
-        className={`form-input ${className}`}
+        className={`form-input ${disabled ? "disabled" : ""} ${className}`}
         placeholder=""
         defaultValue={defaultValue}
         required={required ? true : undefined}
+        disabled={disabled}
         style={{
           backgroundColor: color,
         }}
       />
       <label
         htmlFor={name}
-        className="form-label"
+        className={`form-label ${disabled ? "disabled" : ""}`}
         style={{
           backgroundColor: color,
         }}
       >
-        {capitalize(label)}
+        {capitalize(label)} {required ? "*" : ""}
       </label>
     </div>
   );

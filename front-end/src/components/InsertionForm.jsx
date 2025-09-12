@@ -4,6 +4,7 @@ import { FormSubmit } from "../components/FormSubmit";
 import { FormTextArea } from "../components/FormTextArea";
 import { TitleInput } from "../components/TitleInput";
 import { LightButton } from "../components/LightButton";
+import { useState } from "react";
 
 export function InsertionForm({
   cidadeOpt = [],
@@ -20,6 +21,12 @@ export function InsertionForm({
   submitText = "Adicionar vaga",
   payload = {},
 }) {
+  const [semBolsa, setSemBolsa] = useState(false);
+
+  const toggleSemBolsa = (e) => {
+    setSemBolsa(!semBolsa);
+  };
+
   return (
     <form className="std-form" id="insert-form" onSubmit={onSubmit}>
       <TitleInput
@@ -64,14 +71,41 @@ export function InsertionForm({
             required={true}
           />
 
-          <FormInput
-            label={"bolsa (R$)"}
-            name={"bolsa"}
-            defaultValue={payload.bolsa || "0"}
-            type="number"
-          />
+          <div>
+            <FormInput
+              label={"bolsa (R$)"}
+              name={"bolsa"}
+              defaultValue={payload.bolsa || "0"}
+              type="number"
+              disabled={semBolsa}
+            />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginTop: "4px",
+              }}
+            >
+              <input
+                type="checkbox"
+                name="sem_bolsa"
+                value={"sem_bolsa"}
+                className="form-bolsa-checkbox"
+                onChange={toggleSemBolsa}
+              />
+              <label htmlFor="sem_bolsa" className="form-bolsa-checkbox-label">
+                Não remunerada
+              </label>
+            </div>
+          </div>
         </div>
       </div>
+
+      <FormInput
+        label={"link de candidatura"}
+        name={"link"}
+        defaultValue={payload.link || null}
+      />
 
       <FormTextArea
         label="Descrição da vaga"

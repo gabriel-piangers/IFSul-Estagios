@@ -17,9 +17,8 @@ export function FormTextArea({
         required={required}
         className={`form-textarea ${className}`}
       ></textarea>
-
       <label htmlFor={name} className="form-label-textarea">
-        {label}
+        {label} {required ? "*" : ""}
       </label>
     </div>
   );

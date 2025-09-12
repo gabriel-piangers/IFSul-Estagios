@@ -25,6 +25,12 @@ export function HomePage() {
               id="home-form"
               color="var(--bg-color)"
             />
+            <a
+              className="home-right-link"
+              href="https://www.sapiranga.ifsul.edu.br/coordenadoria-de-pesquisa-e-extensao/estagios"
+            >
+              Ver sobre o processo de estágio
+            </a>
           </section>
         </div>
       </main>

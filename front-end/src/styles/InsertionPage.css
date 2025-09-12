@@ -1,77 +1,76 @@
 .insert-job-display {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .insert-title {
-    font-size: 2rem;
-    font-weight: 500;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 #insert-form {
-    gap: 1rem;
-    padding: 1.6rem min(5%, 4rem);
-    max-width: 900px;
+  gap: 1rem;
+  padding: 1.6rem min(5%, 4rem);
+  max-width: 900px;
 }
 
 .insert-form-container {
-    width: 100%;
-    display: flex;
-    gap: 1rem;
-    justify-content: space-between;
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
 }
 
 .insert-form-left {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .insert-form-right {
-    width: 35%;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .insert-form-textarea {
-    min-width: 90%
+  min-width: 90%;
 }
 
 .insert-form-submit {
-    width: 35%;
-    margin-left: auto;
+  width: 35% !important;
+  margin-left: auto;
 }
 
 .insert-return-button {
-    border-radius: 1.5rem;
-    font-size: 1.1rem;
+  border-radius: 1.5rem;
+  font-size: 1.1rem;
 }
 
 .insert-form-error {
-    color: white;
-    width: 100%;
-    font-weight: 400;
-    padding: 1rem;
-    font-size: 0.9rem;
-    background-color: rgb(233, 85, 85);
-    margin-top: 2rem;
+  color: white;
+  width: 100%;
+  font-weight: 400;
+  padding: 1rem;
+  font-size: 0.9rem;
+  background-color: rgb(233, 85, 85);
+  margin-top: 2rem;
 }
 
 .insert-form-success {
-    color: white;
-    width: 100%;
-    font-weight: 400;
-    padding: 1rem;
-    font-size: 0.9rem;
-    background-color: rgb(85, 233, 104);
-    margin-top: 2rem;
+  color: white;
+  width: 100%;
+  font-weight: 400;
+  padding: 1rem;
+  font-size: 0.9rem;
+  background-color: rgb(85, 233, 104);
+  margin-top: 2rem;
 }

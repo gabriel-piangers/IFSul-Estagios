@@ -49,6 +49,7 @@ export function InsertionPage() {
           bolsa: payload.bolsa || 0,
           contato: payload.contato,
           empresa_nome: payload.empresa_nome,
+          link: payload.link,
         }),
       });
 

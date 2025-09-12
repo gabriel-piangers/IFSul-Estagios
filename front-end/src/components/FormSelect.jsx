@@ -39,7 +39,7 @@ export function FormSelect({
         className="form-label"
         style={{ backgroundColor: color }}
       >
-        {capitalize(label)}
+        {capitalize(label)} {required ? "*" : ""}
       </label>
     </div>
   );
