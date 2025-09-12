@@ -297,6 +297,7 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
       empresa_nome,
       contato,
       link,
+      remunerado = false,
     } = req.body;
     try {
       if (
@@ -313,7 +314,7 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
           msg: "Missing required body components",
         });
       }
-      const query = `INSERT INTO vagas (titulo, descricao, cidade, turno, bolsa, tipo, empresa_nome, contato, posted_by, link) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id`;
+      const query = `INSERT INTO vagas (titulo, descricao, cidade, turno, bolsa, tipo, empresa_nome, contato, posted_by, link, remunerado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id`;
 
       const result = await pool.query(query, [
         titulo,
@@ -326,6 +327,7 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
         contato,
         req.user.userId,
         link,
+        remunerado,
       ]);
 
       const newVagaID = result.rows[0].id;
@@ -374,6 +376,8 @@ app.put("/api/vagas/:id", authenticateToken, async (req, res) => {
       tipo = "estágio",
       empresa_nome,
       contato,
+      link,
+      remunerado = false,
     } = req.body;
 
     if (
@@ -392,7 +396,7 @@ app.put("/api/vagas/:id", authenticateToken, async (req, res) => {
     }
 
     const query = `
-  UPDATE vagas SET titulo = $1, descricao = $2, cidade = $3, turno = $4, bolsa = $5, tipo = $6, empresa_nome = $7, contato = $8 WHERE id = $9;
+  UPDATE vagas SET titulo = $1, descricao = $2, cidade = $3, turno = $4, bolsa = $5, tipo = $6, empresa_nome = $7, contato = $8, link = $9, remunerado = $10 WHERE id = $11;
 `;
     const result = await pool.query(query, [
       titulo,
@@ -403,6 +407,8 @@ app.put("/api/vagas/:id", authenticateToken, async (req, res) => {
       tipo,
       empresa_nome,
       contato,
+      link,
+      remunerado,
       vagaId,
     ]);
 

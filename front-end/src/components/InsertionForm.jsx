@@ -89,7 +89,8 @@ export function InsertionForm({
               <input
                 type="checkbox"
                 name="sem_bolsa"
-                value={"sem_bolsa"}
+                value={"true"}
+                id="sem_bolsa"
                 className="form-bolsa-checkbox"
                 onChange={toggleSemBolsa}
               />

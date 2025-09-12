@@ -108,7 +108,16 @@ export function CopexPosts() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            ...payload,
+            titulo: payload.titulo,
+            descricao: payload.descricao,
+            cidade: payload.cidade,
+            cursoID: payload.cursoId,
+            turno: payload.turno,
+            bolsa: payload.bolsa || 0,
+            contato: payload.contato,
+            empresa_nome: payload.empresa_nome,
+            link: payload.link,
+            remunerado: payload.sem_bolsa || false,
           }),
         }
       );
