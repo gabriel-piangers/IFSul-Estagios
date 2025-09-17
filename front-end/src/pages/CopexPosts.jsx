@@ -61,10 +61,15 @@ export function CopexPosts() {
     setUpdateAlert(true);
   };
 
-  const handleDelete = async (vagaId) => {
+  const handleOpenDelete = (vaga) => {
+    setUpdatingVaga(vaga);
+    setDeleteAlert(true);
+  };
+
+  const handleDelete = async (vaga) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/vagas/${vagaId}`,
+        `${import.meta.env.VITE_API_URL}/vagas/${vaga.id}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -75,7 +80,10 @@ export function CopexPosts() {
       );
       const data = await response.json();
       if (data.success) {
-        setPostedVagas(postedVagas.filter((vaga) => vaga.id !== vagaId));
+        setPostedVagas(
+          postedVagas.filter((vagaState) => vagaState.id !== vaga.id)
+        );
+        setUpdatingVaga(null);
         setDeleteAlert(false);
       } else {
         console.log("failed to delete vaga: ", data.msg);
@@ -111,7 +119,7 @@ export function CopexPosts() {
             titulo: payload.titulo,
             descricao: payload.descricao,
             cidade: payload.cidade,
-            cursoID: payload.cursoId,
+            cursoId: payload.cursoId,
             turno: payload.turno,
             bolsa: payload.bolsa || 0,
             contato: payload.contato,
@@ -203,7 +211,7 @@ export function CopexPosts() {
                       src={lixeira}
                       alt="icone de excluir"
                       className="post-job-option secondary-hover"
-                      onClick={() => setDeleteAlert(true)}
+                      onClick={() => handleOpenDelete(vaga)}
                     />
                   </div>
                   {deleteAlert && (
@@ -216,7 +224,7 @@ export function CopexPosts() {
                         />
                         <GreenButton
                           label="Confirmar"
-                          onClick={() => handleDelete(vaga.id)}
+                          onClick={() => handleDelete(updatingVaga)}
                         />
                       </div>
                     </ModalAlert>
