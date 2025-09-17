@@ -189,14 +189,9 @@ export function CopexPosts() {
             {postedVagas.map((vaga) => {
               return (
                 <div className={`post-job-container`} key={vaga.id}>
-                  <img
-                    src={jobIcon}
-                    alt="Job icon"
-                    className="aside-job-icon"
-                  />
                   <div className="post-job-info">
                     <h3 className="post-job-title">{vaga.titulo}</h3>
-                    <p className="post-job-company">{vaga.empresa}</p>
+                    <p className="post-job-company">{vaga.empresa_nome}</p>
                     <p className="post-job-p">{vaga.cidade}</p>
                     <p className="post-job-p">{vaga.turno}</p>
                   </div>

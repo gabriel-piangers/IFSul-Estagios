@@ -315,6 +315,7 @@ body {
 }
 
 .aside-job-container {
+  width: 100%;
   padding: 1rem 2rem;
   border-bottom: 1px solid var(--border-color);
   display: flex;
@@ -331,11 +332,8 @@ body {
   cursor: pointer;
 }
 
-.aside-job-icon {
-  height: 50%;
-  object-fit: contain;
-  border: 1px solid var(--border-color);
-  aspect-ratio: 1 /1;
+.aside-job-info {
+  width: 100%;
 }
 
 .aside-job-title {
@@ -352,6 +350,25 @@ body {
   font-size: 0.8rem;
   padding: 0.3rem 0;
   font-weight: 200;
+}
+
+.aside-job-tag {
+  font-size: 0.8rem;
+  border-radius: 10px;
+  padding: 2px 8px;
+  color: white;
+}
+
+.tag-estágio {
+  background-color: #69b606;
+}
+
+.tag-efetivo {
+  background-color: rgb(3, 121, 199);
+}
+
+.tag-aprendiz {
+  background-color: #218f06;
 }
 
 .search-job-display {

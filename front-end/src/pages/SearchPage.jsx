@@ -91,23 +91,29 @@ export function SearchPage() {
                     key={vaga.id}
                     onClick={() => setSelectedJob(vaga)}
                   >
-                    <img
-                      src={jobIcon}
-                      alt="Job icon"
-                      className="aside-job-icon"
-                    />
                     <div className="aside-job-info">
                       <h3 className="aside-job-title">{vaga.titulo}</h3>
-                      <p className="aside-job-company">{vaga.empresa}</p>
-                      <p className="aside-job-p">{vaga.cidade}</p>
-                      <p className="aside-job-p">{vaga.turno}</p>
+                      <p className="aside-job-company">{vaga.empresa_nome}</p>
+                      <div
+                        className="flex-container"
+                        style={{
+                          width: "100%",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <p className="aside-job-p">
+                          {vaga.cidade} • {vaga.turno}
+                        </p>
+                        <span className={`aside-job-tag tag-${vaga.tipo}`}>
+                          {vaga.tipo}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 );
               })}
             </aside>
             <section className="search-job-display">
-              <img src={jobIcon} alt="Job icon" className="job-display-icon" />
               <h2 className="job-display-title">{selectedJob.titulo}</h2>
               <p className="job-display-p-thin">
                 {selectedJob.empresa_nome} • {selectedJob.cidade}
