@@ -1,9 +1,10 @@
 import { Header } from "../components/Header";
-import { FormSelect } from "../components/FormSelect";
-import { FormSubmit } from "../components/FormSubmit";
 import { SearchForm } from "../components/searchForm";
-import jobIcon from "../assets/job-icon.png";
-import { printReais } from "../scripts/stringHandler";
+import {
+  printReais,
+  convertUrlsToLinks,
+  printPublishedTime,
+} from "../scripts/stringHandler";
 import { useState } from "react";
 import { cidadeOpt, cursoOpt, vagas } from "../scripts/memoDB";
 import { useLocation, useSearchParams } from "react-router";
@@ -61,6 +62,8 @@ export function SearchPage() {
     }
   }, [matchingJobs]);
 
+  console.log("selectedJob: ", selectedJob);
+
   return (
     <>
       <Header />
@@ -92,7 +95,10 @@ export function SearchPage() {
                     onClick={() => setSelectedJob(vaga)}
                   >
                     <div className="aside-job-info">
-                      <h3 className="aside-job-title">{vaga.titulo}</h3>
+                      <div className="flex-container" style={{ gap: "10px" }}>
+                        <h3 className="aside-job-title">{vaga.titulo}</h3>
+                        <span>{printPublishedTime(vaga.publicada_em)}</span>
+                      </div>
                       <p className="aside-job-company">{vaga.empresa_nome}</p>
                       <div
                         className="flex-container"
@@ -137,7 +143,11 @@ export function SearchPage() {
 
               <p className="job-display-p">
                 <strong>Sobre</strong> <br />
-                {selectedJob.descricao}
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: convertUrlsToLinks(selectedJob.descricao),
+                  }}
+                />
               </p>
               <p className="job-display-p">
                 <strong>Turno</strong> <br />
@@ -145,8 +155,10 @@ export function SearchPage() {
               </p>
               <p className="job-display-p">
                 <strong>Bolsa</strong> <br />
-                {selectedJob.bolsa == 0
-                  ? "A combinar"
+                {!selectedJob.remunerado
+                  ? "Não remunerado"
+                  : selectedJob.bolsa == 0
+                  ? "Não informado"
                   : printReais(selectedJob.bolsa)}
               </p>
               <p className="job-display-p">

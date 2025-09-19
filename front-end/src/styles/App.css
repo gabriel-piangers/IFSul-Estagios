@@ -414,6 +414,16 @@ body {
 
 .job-display-p {
   margin-bottom: 1rem;
+  white-space: pre-line;
+}
+
+.job-display-p a {
+  color: blue;
+  text-decoration: none;
+}
+
+.job-display-p a:hover {
+  text-decoration: underline;
 }
 
 .form-select {
