@@ -1,11 +1,12 @@
-import {useNavigate} from "react-router"
+import {useNavigate} from "react-router";
+import "../styles/LoginPage.css";
 
 export function LoginNav({ selected = "login", setSelection}) {
   const navigate = useNavigate()
 
   return (
     <nav className="login-nav">
-      <div className="login-nav-button" onClick={() => {
+      <div className="login-nav-button disabled" onClick={() => {
         setSelection('register')
         navigate('/register')
       }}>

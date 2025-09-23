@@ -1,14 +1,11 @@
 import { Header } from "../components/Header";
 import { SearchForm } from "../components/searchForm";
-import {
-  printReais,
-  convertUrlsToLinks,
-  printPublishedTime,
-} from "../scripts/stringHandler";
+import { printReais,  convertUrlsToLinks,  printPublishedTime } from "../scripts/stringHandler";
 import { useState } from "react";
 import { cidadeOpt, cursoOpt, vagas } from "../scripts/memoDB";
 import { useLocation, useSearchParams } from "react-router";
 import { useEffect } from "react";
+import "../styles/LoginPage.css";
 
 export function SearchPage() {
   const [matchingJobs, setMatchingJobs] = useState([]);
@@ -95,9 +92,14 @@ export function SearchPage() {
                     onClick={() => setSelectedJob(vaga)}
                   >
                     <div className="aside-job-info">
-                      <div className="flex-container" style={{ gap: "10px" }}>
+                      <div
+                        className="flex-container"
+                        style={{ justifyContent: "space-between" }}
+                      >
                         <h3 className="aside-job-title">{vaga.titulo}</h3>
-                        <span>{printPublishedTime(vaga.publicada_em)}</span>
+                        <span className="aside-job-date">
+                          {printPublishedTime(vaga.publicada_em)}
+                        </span>
                       </div>
                       <p className="aside-job-company">{vaga.empresa_nome}</p>
                       <div

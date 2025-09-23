@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthProvider";
 import { loginErrors } from "../scripts/formValidation";
+import "../styles/LoginPage.css";
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -33,8 +34,8 @@ export function LoginPage() {
         setInvalidCredencials({ show: true, msg: loginErrors(data.status) });
       }
     } catch (error) {
-      console.log(error)
-      setInvalidCredencials({show:true, msg: "Error in Fetch"})
+      console.log(error);
+      setInvalidCredencials({ show: true, msg: "Error in Fetch" });
     }
   };
 
@@ -43,11 +44,7 @@ export function LoginPage() {
       <LoginBanner />
 
       <section className="login-section">
-        <LoginNav
-          selected={selected}
-          setSelection={setSelection}
-          onSubmit={submitLogin}
-        />
+        <LoginNav />
         <form className="login-form std-form" onSubmit={submitLogin}>
           <FormInput
             label={"email"}

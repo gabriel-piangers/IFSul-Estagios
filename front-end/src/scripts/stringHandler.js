@@ -22,11 +22,11 @@ export function printPublishedTime(data) {
   const now = new Date();
   const diffInMs = now - date;
   const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-  if (diffInDays === 0) {
+  if (diffInDays < 1) {
     return "Hoje";
   } else if (diffInDays === 1) {
     return "Ontem";
   } else {
-    return `${diffInDays} dias atrás`;
+    return `Há ${diffInDays} dias`;
   }
 }

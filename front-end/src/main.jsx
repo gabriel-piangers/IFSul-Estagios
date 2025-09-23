@@ -19,7 +19,6 @@ createRoot(document.getElementById("root")).render(
       <Routes>
         <Route index path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
 
         <Route path="/search" element={<SearchPage />} />
 

@@ -21,7 +21,7 @@ const pool = new Pool({
   },
   max: 5, //max de conexões simultaneas
   min: 1, // minimo de conexões simultaneas
-  connectionTimeoutMillis: 5000, // Timeout para conectar
+  connectionTimeoutMillis: 10000, // Timeout para conectar
   acquireTimeoutMillis: 60000, // Timeout para pegar conexão do pool
   statement_timeout: 30000, // Timeout para queries
   idleTimeoutMillis: 30000, // Fechar conexões inativas

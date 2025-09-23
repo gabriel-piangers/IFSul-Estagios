@@ -1,0 +1,84 @@
+@import url("./App.css");
+
+.login-main {
+  background-color: var(--section-bg-color);
+  display: flex;
+  height: 100vh;
+}
+
+.login-banner {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.login-banner-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.login-banner-logo {
+  width: 80%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  left: 0;
+}
+
+.login-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  padding: 0 6%;
+  height: 100%;
+}
+
+.login-nav {
+  display: flex;
+  margin-top: 20%;
+  margin-bottom: 2rem;
+}
+
+.login-nav-button:hover {
+  cursor: pointer;
+}
+
+.login-nav-button.disabled {
+  color: grey;
+  cursor: not-allowed;
+  
+}
+
+.login-nav-p {
+  width: 100%;
+  padding: 0.6rem 3.5rem;
+  border-bottom: 1px solid rgb(150, 150, 150);
+  transition: all 0.3s;
+}
+
+.login-nav-p.selected {
+  width: 100%;
+  border-bottom: 4px solid rgb(29, 29, 29);
+}
+
+.login-form {
+  height: 50%;
+}
+
+.register-form {
+  height: 70%;
+  gap: min(5%, 1.4rem);
+}
+
+@media (max-width: 748px) {
+  .login-banner {
+    display: none;
+  }
+
+  .login-section {
+    width: 100%;
+  }
+}
