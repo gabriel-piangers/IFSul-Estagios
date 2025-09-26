@@ -7,7 +7,7 @@
   height: 6rem;
   max-width: 100%;
   max-height: 400px;
-  min-height: 43px ;
+  min-height: 43px;
   font-family: inter, "Trebuchet MS", sans-serif;
 }
 
@@ -23,4 +23,39 @@
   outline: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 4px;
+}
+
+.search-select-dropdown {
+  position: absolute;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  z-index: 1000;
+}
+
+.search-select-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  background: white;
+  border-bottom: 1px solid #eee;
+  font-size: 0.8rem;
+}
+
+.search-select-option:hover {
+  background: #f0f0f0;
+}
+
+.search-select-input {
+  border: 1px solid black;
+  width: 100%;
+  border-radius: 1.5rem;
+  padding: 0.8rem 1.5rem;
+}
+
+.search-select-container {
+  position: relative;
+  width: 100%;
 }

@@ -4,6 +4,7 @@ import { FormSubmit } from "../components/FormSubmit";
 import { FormTextArea } from "../components/FormTextArea";
 import { TitleInput } from "../components/TitleInput";
 import { LightButton } from "../components/LightButton";
+import { SearchableSelect } from "./SearchableSelect";
 import { useState } from "react";
 
 export function InsertionForm({
@@ -43,12 +44,13 @@ export function InsertionForm({
             required={true}
           />
 
-          <FormSelect
-            label={"cidade"}
+          <SearchableSelect
+            label="cidade"
             options={cidadeOpt}
-            defaultValue={payload.cidade || null}
+            defaultOption={payload.cidade || null}
             required={true}
           />
+
           <FormInput
             label={"contato"}
             defaultValue={payload.contato || ""}
