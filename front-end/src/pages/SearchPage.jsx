@@ -124,10 +124,17 @@ export function SearchPage() {
             </aside>
             <section className="search-job-display">
               <h2 className="job-display-title">{selectedJob.titulo}</h2>
-              <p className="job-display-p-thin">
-                {selectedJob.empresa_nome} • {selectedJob.cidade}
-              </p>
-
+              <div
+                className="flex-container"
+                style={{ width: "100%", justifyContent: "space-between" }}
+              >
+                <p className="job-display-p-thin">
+                  {selectedJob.empresa_nome} • {selectedJob.cidade}
+                </p>
+                <span className="aside-job-date">
+                  {printPublishedTime(selectedJob.publicada_em)}
+                </span>
+              </div>
               {selectedJob.link ? (
                 <button
                   className="form-submit job-display-button"

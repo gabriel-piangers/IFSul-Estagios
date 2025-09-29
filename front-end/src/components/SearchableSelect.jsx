@@ -4,7 +4,7 @@ import "../styles/form.css";
 
 export function SearchableSelect({
   options = [],
-  defaultOption = null,
+  defaultOption = "",
   required = false,
   label = "Selecione",
   name,
@@ -14,9 +14,9 @@ export function SearchableSelect({
 }) {
   if (!name) name = label;
   if (!id) id = name;
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState(defaultOption || "");
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(defaultOption);
+  const [selectedOption, setSelectedOption] = useState({ name: defaultOption });
   const selectRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -60,6 +60,7 @@ export function SearchableSelect({
           id={name}
           className={`form-input form-select ${className}`}
           required={required}
+          defaultValue={defaultOption}
           value={filter}
           style={{
             backgroundColor: color,

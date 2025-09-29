@@ -24,8 +24,6 @@ export function InsertionPage() {
       return;
     }
 
-    console.log(payload);
-
     if (!user || !user.user_type === "copex")
       return setError({
         status: true,

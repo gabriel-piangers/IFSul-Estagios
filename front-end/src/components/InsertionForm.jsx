@@ -26,14 +26,14 @@ export function InsertionForm({
     setSemBolsa(!semBolsa);
   };
 
-  const [cidades, setCidades] = useState(null);
+  const [cidades, setCidades] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
     getCidades()
       .then((e) => setCidades(e))
-      .finally(setLoading(false));
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) {
