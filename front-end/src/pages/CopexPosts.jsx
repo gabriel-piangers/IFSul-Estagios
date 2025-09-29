@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { Header } from "../components/Header";
 import { SearchForm } from "../components/searchForm";
-import { cidadeOpt, cursoOpt, turnoOpt } from "../scripts/memoDB";
 import { useLocation, useNavigate } from "react-router";
-import jobIcon from "../assets/job-icon.png";
 import lixeira from "../assets/lixeira.svg";
 import editar from "../assets/editar.svg";
 import plusIcon from "../assets/plusIcon.svg";
@@ -177,11 +175,7 @@ export function CopexPosts() {
     <>
       <Header />
       <main className="page-main">
-        <SearchForm
-          cidades={cidadeOpt}
-          cursos={cursoOpt}
-          onSubmit={handleSearch}
-        />
+        <SearchForm onSubmit={handleSearch} />
         {loading ? (
           <h1>Carregando...</h1>
         ) : postedVagas.length > 0 && !error.status ? (
@@ -228,9 +222,6 @@ export function CopexPosts() {
                   {updateAlert && (
                     <ModalAlert title="Editar vaga publicada">
                       <InsertionForm
-                        cidadeOpt={cidadeOpt}
-                        cursoOpt={cursoOpt}
-                        turnoOpt={turnoOpt}
                         onReturn={handleCancelUpdate}
                         onSubmit={handleUpdate(updatingVaga)}
                         success={updateSuccess}

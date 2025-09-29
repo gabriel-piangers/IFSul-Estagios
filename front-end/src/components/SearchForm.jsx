@@ -1,11 +1,12 @@
 import { FormSelect } from "./FormSelect";
 import { FormSubmit } from "./FormSubmit";
+import { SearchableSelect } from "./SearchableSelect";
+import { cursoOpt, getCidades } from "../scripts/memoDB";
 import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 
 export function SearchForm({
   onSubmit = null,
-  cidades,
-  cursos,
   color = "var(--section-bg-color)",
   className = "",
   id = "",
@@ -31,11 +32,25 @@ export function SearchForm({
       navigate(url);
     };
 
-  return (
-    <form className={`search-form ${className}`} id={id} onSubmit={onSubmit}>
-      <FormSelect label="cidade" options={cidades} color={color} />
-      <FormSelect label="curso" options={cursos} color={color} />
-      <FormSubmit label="buscar" />
-    </form>
-  );
+  const [cidades, setCidades] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    getCidades()
+      .then((e) => setCidades(e))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+      <form className={`search-form ${className}`} id={id} onSubmit={onSubmit}>
+        <SearchableSelect label="cidade" options={cidades} color={color} />
+        <FormSelect label="curso" options={cursoOpt} color={color} />
+        <FormSubmit label="buscar" />
+      </form>
+    );
+  }
 }

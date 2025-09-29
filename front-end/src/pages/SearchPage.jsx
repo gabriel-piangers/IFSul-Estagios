@@ -1,8 +1,11 @@
 import { Header } from "../components/Header";
 import { SearchForm } from "../components/searchForm";
-import { printReais,  convertUrlsToLinks,  printPublishedTime } from "../scripts/stringHandler";
+import {
+  printReais,
+  convertUrlsToLinks,
+  printPublishedTime,
+} from "../scripts/stringHandler";
 import { useState } from "react";
-import { cidadeOpt, cursoOpt, vagas } from "../scripts/memoDB";
 import { useLocation, useSearchParams } from "react-router";
 import { useEffect } from "react";
 import "../styles/LoginPage.css";
@@ -59,13 +62,11 @@ export function SearchPage() {
     }
   }, [matchingJobs]);
 
-  console.log("selectedJob: ", selectedJob);
-
   return (
     <>
       <Header />
       <main className="page-main">
-        <SearchForm cidades={cidadeOpt} cursos={cursoOpt} />
+        <SearchForm />
         {loading ? (
           <h2 className="jobs-not-found">Carregando...</h2>
         ) : error.status ? (

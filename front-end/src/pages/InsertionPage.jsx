@@ -1,5 +1,4 @@
 import { Header } from "../components/Header";
-import { cidadeOpt, cursoOpt, turnoOpt } from "../scripts/memoDB";
 import "../styles/InsertionPage.css";
 import { useNavigate } from "react-router";
 import { useState } from "react";
@@ -78,9 +77,6 @@ export function InsertionPage() {
         <section className="insert-job-display">
           <h1 className="insert-title">Adicionar nova vaga</h1>
           <InsertionForm
-            cidadeOpt={cidadeOpt}
-            cursoOpt={cursoOpt}
-            turnoOpt={turnoOpt}
             onReturn={handleReturn}
             onSubmit={handleInsertion}
             success={success}

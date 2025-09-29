@@ -3,12 +3,13 @@ import { capitalize } from "../scripts/stringHandler";
 import "../styles/form.css";
 
 export function SearchableSelect({
-  options,
+  options = [],
   defaultOption = null,
   required = false,
   label = "Selecione",
   name,
   id,
+  className = "",
   color = "var(--section-bg-color)",
 }) {
   if (!name) name = label;
@@ -23,28 +24,57 @@ export function SearchableSelect({
     return option.name.toLowerCase().includes(filter.toLowerCase());
   });
 
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    setFilter(option.name);
+    setIsOpen(false);
+  };
+
+  useEffect(() => {
+    inputRef.current.value = filter;
+  }, [filter]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (selectRef.current && !selectRef.current.contains(event.target)) {
         setIsOpen(false);
+        if (selectedOption) {
+          setFilter(selectedOption.name);
+        } else {
+          setFilter("");
+        }
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [selectedOption]);
 
   return (
-    <div ref={selectRef} style={{ position: "relative" }}>
+    <div ref={selectRef} style={{ position: "relative", width: "100%" }}>
       <div className="form-input-container">
         <input
           ref={inputRef}
           type="text"
-          className="form-input form-select"
+          name={name}
+          id={name}
+          className={`form-input form-select ${className}`}
           required={required}
           value={filter}
+          style={{
+            backgroundColor: color,
+          }}
+          autoComplete="off"
           onChange={(e) => setFilter(e.target.value)}
           onClick={() => setIsOpen(!isOpen)}
+          onBlur={(e) => {
+            if (selectedOption) {
+              setFilter(selectedOption.name);
+            } else {
+              setFilter("");
+            }
+            setIsOpen(false);
+          }}
         />
         <label
           htmlFor={name}
@@ -60,11 +90,7 @@ export function SearchableSelect({
             <div
               className="search-select-option"
               key={option.name}
-              onClick={() => {
-                setSelectedOption(option);
-                setIsOpen(false);
-                setFilter(option.name);
-              }}
+              onMouseDown={() => handleOptionSelect(option)}
             >
               {option.name}
             </div>
