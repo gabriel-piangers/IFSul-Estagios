@@ -12,6 +12,12 @@ export const turnoOpt = [
   { name: "Não informado", value: "Não informado" },
 ];
 
+export const modalidadeOpt = [
+  { name: "Estágio", value: "estágio" },
+  { name: "Efetivo", value: "efetivo" },
+  { name: "Aprendiz", value: "aprendiz" },
+];
+
 //cidades
 let cidadesCache = null;
 let cidadesPromise = null;

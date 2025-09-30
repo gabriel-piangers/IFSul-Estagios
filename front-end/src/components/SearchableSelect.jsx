@@ -21,6 +21,7 @@ export function SearchableSelect({
   const inputRef = useRef(null);
 
   const filtredOptions = options.filter((option) => {
+    if (!filter || filter === "") return true;
     return option.name.toLowerCase().includes(filter.toLowerCase());
   });
 
@@ -41,7 +42,7 @@ export function SearchableSelect({
         if (selectedOption) {
           setFilter(selectedOption.name);
         } else {
-          setFilter("");
+          setFilter(" ");
         }
       }
     };
@@ -60,8 +61,7 @@ export function SearchableSelect({
           id={name}
           className={`form-input form-select ${className}`}
           required={required}
-          defaultValue={defaultOption}
-          value={filter}
+          value={filter || ""}
           style={{
             backgroundColor: color,
           }}

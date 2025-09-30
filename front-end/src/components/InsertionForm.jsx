@@ -5,7 +5,12 @@ import { FormTextArea } from "../components/FormTextArea";
 import { TitleInput } from "../components/TitleInput";
 import { LightButton } from "../components/LightButton";
 import { SearchableSelect } from "./SearchableSelect";
-import { getCidades, cursoOpt, turnoOpt } from "../scripts/memoDB";
+import {
+  getCidades,
+  cursoOpt,
+  turnoOpt,
+  modalidadeOpt,
+} from "../scripts/memoDB";
 import { useEffect, useState } from "react";
 
 export function InsertionForm({
@@ -67,6 +72,12 @@ export function InsertionForm({
               defaultValue={payload.contato || ""}
               required={true}
             />
+
+            <FormInput
+              label={"link de candidatura"}
+              name={"link"}
+              defaultValue={payload.link || null}
+            />
           </div>
 
           <div className="insert-form-right">
@@ -81,6 +92,12 @@ export function InsertionForm({
               label={"turno"}
               options={turnoOpt}
               defaultValue={payload.turno || null}
+              required={true}
+            />
+            <FormSelect
+              label={"modalidade"}
+              options={modalidadeOpt}
+              defaultValue={payload.tipo || modalidadeOpt[0].name}
               required={true}
             />
 
@@ -117,12 +134,6 @@ export function InsertionForm({
             </div>
           </div>
         </div>
-
-        <FormInput
-          label={"link de candidatura"}
-          name={"link"}
-          defaultValue={payload.link || null}
-        />
 
         <FormTextArea
           label="Descrição da vaga"

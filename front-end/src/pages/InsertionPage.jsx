@@ -48,6 +48,7 @@ export function InsertionPage() {
           empresa_nome: payload.empresa_nome,
           link: payload.link,
           remunerado: payload.sem_bolsa || false,
+          tipo: payload.modalidade,
         }),
       });
 
