@@ -14,7 +14,8 @@ export function SearchPage() {
   const [matchingJobs, setMatchingJobs] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
   const location = useLocation();
-  let searchCity = null;
+  const [searchCity, setSearchCity] = useState(null);
+  const [searchCourse, setSearchCourse] = useState(null);
   const [error, setError] = useState({ status: false, msg: "" });
   const [loading, setLoading] = useState(false);
 
@@ -34,16 +35,18 @@ export function SearchPage() {
     try {
       setLoading(true);
       const searchParams = new URLSearchParams(location.search);
-      let searchCity = searchParams.get("cidade") || null;
-      let searchCourse = searchParams.get("cursoId") || null;
+      const city = searchParams.get("cidade") || null;
+      const course = searchParams.get("cursoId") || null;
       let url = "/vagas";
       const params = [];
 
-      if (searchCity) params.push(`cidade=${searchCity}`);
-      if (searchCourse) params.push(`curso_id=${searchCourse}`);
+      if (city) params.push(`cidade=${city}`);
+      if (course) params.push(`curso_id=${course}`);
 
       if (params.length > 0) url += "?" + params.join("&");
       getJobs(url);
+      setSearchCity(city);
+      setSearchCourse(course);
       setError({ status: false });
     } catch (error) {
       console.log("erro ao carregar vagas: ", error);
@@ -66,7 +69,7 @@ export function SearchPage() {
     <>
       <Header />
       <main className="page-main">
-        <SearchForm />
+        <SearchForm payload={{ cidade: searchCity, curso: searchCourse }} />
         {loading ? (
           <h2 className="jobs-not-found">Carregando...</h2>
         ) : error.status ? (

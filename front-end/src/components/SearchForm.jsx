@@ -10,6 +10,7 @@ export function SearchForm({
   color = "var(--section-bg-color)",
   className = "",
   id = "",
+  payload = {},
 }) {
   const navigate = useNavigate();
 
@@ -28,7 +29,6 @@ export function SearchForm({
       }
 
       if (params.length > 0) url += `?${params.join("&")}`;
-      console.log(url);
       navigate(url);
     };
 
@@ -47,8 +47,18 @@ export function SearchForm({
   } else {
     return (
       <form className={`search-form ${className}`} id={id} onSubmit={onSubmit}>
-        <SearchableSelect label="cidade" options={cidades} color={color} />
-        <FormSelect label="curso" options={cursoOpt} color={color} />
+        <SearchableSelect
+          label="cidade"
+          defaultOption={payload.cidade || null}
+          options={cidades}
+          color={color}
+        />
+        <FormSelect
+          label="curso"
+          defaultValue={payload.curso || null}
+          options={cursoOpt}
+          color={color}
+        />
         <FormSubmit label="buscar" />
       </form>
     );
