@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Header } from "../components/Header";
-import { SearchForm } from "../components/searchForm";
+import { SearchForm } from "../components/SearchForm";
 import { useLocation, useNavigate } from "react-router";
 import lixeira from "../assets/lixeira.svg";
 import editar from "../assets/editar.svg";
