@@ -1,5 +1,5 @@
 import { Header } from "../components/Header";
-import { SearchForm } from "../components/searchForm";
+import { SearchForm } from "../components/SearchForm";
 import {
   printReais,
   convertUrlsToLinks,
