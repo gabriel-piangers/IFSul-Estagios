@@ -34,20 +34,22 @@ pool.on("error", (err, client) => {
 
 const app = express();
 
-app.use(cors({
-  origin: [
-    'https://ifsul-estagios.vercel.app',
-    'http://localhost:5173', // para desenvolvimento local
-  ],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: [
+      "https://ifsul-estagios.vercel.app",
+      "http://localhost:5173", // para desenvolvimento local
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
 // +-- Routes ---+
 
-app.get('/api/health', (req, res) => {
-  res.json({ message: 'API está funcionando!' });
+app.get("/api/health", (req, res) => {
+  res.json({ message: "API está funcionando!" });
 });
 
 //get users
@@ -482,7 +484,7 @@ process.on("SIGINT", async () => {
   process.exit(0);
 });
 
-module.exports = app;
+export default app;
 
 //app.listen(port, async () => {
 //  console.log(`Running on port ${port}`);
