@@ -1,6 +1,6 @@
 import { use, useEffect, useRef, useState } from "react";
 import { capitalize } from "../scripts/stringHandler";
-import "../styles/form.css";
+import "../styles/Form.css";
 
 export function SearchableSelect({
   options = [],
