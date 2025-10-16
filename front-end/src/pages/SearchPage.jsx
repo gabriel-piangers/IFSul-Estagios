@@ -168,7 +168,7 @@ export function SearchPage() {
               </p>
               <p className="job-display-p">
                 <strong>Bolsa</strong> <br />
-                {!selectedJob.remunerado
+                {selectedJob.remunerado
                   ? "Não remunerado"
                   : selectedJob.bolsa == 0
                   ? "Não informado"

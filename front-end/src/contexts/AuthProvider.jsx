@@ -64,12 +64,11 @@ export function AuthProvider({ children }) {
       const data = await response.json();
 
       if (!data) return { msg: `No response from server` };
-
       if (data.success) {
         setUser(data.user);
         setIsAutenticated(true);
       }
-      return data;
+      return {...data, status: response.status};
     } catch (error) {
       return {
         success: false,

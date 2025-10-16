@@ -30,7 +30,7 @@ export function LoginPage() {
         if (data.user.user_type === "copex") return navigate("/copex");
         return navigate("/");
       } else {
-        console.log(data.msg);
+        console.log(data);
         setInvalidCredencials({ show: true, msg: loginErrors(data.status) });
       }
     } catch (error) {
