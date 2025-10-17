@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useLocation, useSearchParams } from "react-router";
 import { useEffect } from "react";
 import "../styles/LoginPage.css";
+import returnIcon from "../assets/corner-down-left.svg";
 
 export function SearchPage() {
   const [matchingJobs, setMatchingJobs] = useState([]);
@@ -18,6 +19,8 @@ export function SearchPage() {
   const [searchCourse, setSearchCourse] = useState(null);
   const [error, setError] = useState({ status: false, msg: "" });
   const [loading, setLoading] = useState(false);
+  const [sideMenu, setSideMenu] = useState(true);
+  const [width, setWidth] = useState(window.innerWidth);
 
   const getJobs = async (url) => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}${url}`);
@@ -30,6 +33,18 @@ export function SearchPage() {
       setMatchingJobs([]);
     }
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     try {
@@ -79,7 +94,13 @@ export function SearchPage() {
           </div>
         ) : matchingJobs.length > 0 ? (
           <div className="search-results">
-            <aside className="search-aside">
+            <aside
+              className="search-aside"
+              style={{
+                display: width < 768 ? (sideMenu ? "block" : "none") : "block",
+                width: width < 768 ? "100%" : "35%",
+              }}
+            >
               <p className="search-results-info">
                 {" "}
                 {`${matchingJobs.length} vagas encontradas ${
@@ -93,7 +114,10 @@ export function SearchPage() {
                       selectedJob.id === vaga.id ? "selected" : ""
                     }`}
                     key={vaga.id}
-                    onClick={() => setSelectedJob(vaga)}
+                    onClick={() => {
+                      setSelectedJob(vaga);
+                      setSideMenu(false);
+                    }}
                   >
                     <div className="aside-job-info">
                       <div
@@ -125,8 +149,22 @@ export function SearchPage() {
                 );
               })}
             </aside>
-            <section className="search-job-display">
-              <h2 className="job-display-title">{selectedJob.titulo}</h2>
+            <section
+              className="search-job-display"
+              style={{
+                display: width < 768 ? (sideMenu ? "none" : "block") : "block",
+                width: width < 768 ? "100%" : "65%",
+              }}
+            >
+              <div className="flex-container">
+                <img
+                  src={returnIcon}
+                  alt="Voltar ao menu"
+                  className="job-display-back"
+                  onClick={() => setSideMenu(true)}
+                />
+                <h2 className="job-display-title">{selectedJob.titulo}</h2>
+              </div>
               <div
                 className="flex-container"
                 style={{ width: "100%", justifyContent: "space-between" }}

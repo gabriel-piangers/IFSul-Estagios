@@ -43,7 +43,6 @@ body {
   gap: 1rem;
 }
 
-
 .std-form {
   width: 100%;
   display: flex;
@@ -367,6 +366,15 @@ body {
 
 .job-display-p a:hover {
   text-decoration: underline;
+}
+
+.job-display-back {
+  transition: all 0.2s;
+}
+
+.job-display-back:hover {
+  cursor: pointer;
+  scale: 115%;
 }
 
 .form-select {
