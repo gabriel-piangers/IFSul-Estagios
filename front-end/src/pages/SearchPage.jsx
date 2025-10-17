@@ -161,6 +161,7 @@ export function SearchPage() {
                   src={returnIcon}
                   alt="Voltar ao menu"
                   className="job-display-back"
+                  style={{ display: width < 768 ? "block" : "none" }}
                   onClick={() => setSideMenu(true)}
                 />
                 <h2 className="job-display-title">{selectedJob.titulo}</h2>
