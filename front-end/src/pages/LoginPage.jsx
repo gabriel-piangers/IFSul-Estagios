@@ -10,8 +10,6 @@ import "../styles/LoginPage.css";
 
 export function LoginPage() {
   const navigate = useNavigate();
-
-  const [selected, setSelection] = useState("login");
   const [invalidCredentials, setInvalidCredencials] = useState({
     show: false,
     msg: "",

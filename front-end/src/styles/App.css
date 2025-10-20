@@ -146,8 +146,8 @@ body {
 }
 
 .loading-gif {
-  width: 3rem;
-  height: 3rem;
+  width: 4rem;
+  height: 4rem;
   object-fit: contain;
 }
 
@@ -157,6 +157,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.main-loader {
+  height: calc(95vh - 103px);
 }
 
 .std-header {

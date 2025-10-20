@@ -10,6 +10,7 @@ import { ModalAlert } from "../components/ModalAlert";
 import { InsertionForm } from "../components/InsertionForm";
 import "../styles/CopexPosts.css";
 import { GreenButton } from "../components/GreenButton";
+import { Loader } from "../components/Loader";
 
 export function CopexPosts() {
   const navigate = useNavigate();
@@ -179,7 +180,7 @@ export function CopexPosts() {
       <main className="page-main">
         <SearchForm onSubmit={handleSearch} />
         {loading ? (
-          <h1>Carregando...</h1>
+          <Loader className="main-loader" />
         ) : postedVagas.length > 0 && !error.status ? (
           <aside className="search-aside" id="post-search">
             {postedVagas.map((vaga) => {

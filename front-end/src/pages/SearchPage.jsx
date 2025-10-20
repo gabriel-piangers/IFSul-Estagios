@@ -10,7 +10,7 @@ import { useLocation, useSearchParams } from "react-router";
 import { useEffect } from "react";
 import "../styles/LoginPage.css";
 import returnIcon from "../assets/corner-down-left.svg";
-import loadingGif from "../assets/loading.gif";
+import { Loader } from "../components/Loader";
 
 export function SearchPage() {
   const [matchingJobs, setMatchingJobs] = useState([]);
@@ -88,13 +88,7 @@ export function SearchPage() {
       <main className="page-main">
         <SearchForm payload={{ cidade: searchCity, curso: searchCourse }} />
         {loading ? (
-          <div className="loading-container">
-            <img
-              src={loadingGif}
-              alt="Gif de carregando"
-              className="loading-gif"
-            />
-          </div>
+          <Loader className="main-loader" />
         ) : error.status ? (
           <div className="jobs-not-found">
             <h2>Ocorreu um erro ao buscar buscar por vagas.</h2>
