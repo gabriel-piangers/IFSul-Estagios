@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 
 import { authenticateToken } from "./middleware/authenticateToken.js";
+import { privateAcess } from "./middleware/privateAcess.js";
 
 const port = process.env.PORT || 3000;
 
@@ -53,7 +54,7 @@ app.get("/api/health", (req, res) => {
 });
 
 //get users
-app.get("/api/users", async (req, res) => {
+app.get("/api/users", privateAcess, async (req, res) => {
   try {
     const query = "SELECT * FROM users";
     const result = await pool.query(query);
@@ -67,7 +68,7 @@ app.get("/api/users", async (req, res) => {
 });
 
 //register new user
-app.post("/api/users", async (req, res) => {
+app.post("/api/users", privateAcess, async (req, res) => {
   try {
     const { email, password, name, user_type } = req.body;
     if (!email || !password || !name || !user_type) {
@@ -99,7 +100,7 @@ app.post("/api/users", async (req, res) => {
 });
 
 // Validates if email is not in use
-app.get("/api/users/check-email/:email", async (req, res) => {
+app.get("/api/users/check-email/:email", privateAcess, async (req, res) => {
   try {
     const email = req.params.email;
     if (!email)
@@ -130,7 +131,7 @@ app.get("/api/users/check-email/:email", async (req, res) => {
 });
 
 //user login
-app.post("/api/users/login", async (req, res) => {
+app.post("/api/users/login", privateAcess, async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password)
@@ -291,7 +292,7 @@ app.get("/api/vagas", async (req, res) => {
 });
 
 //insert vaga
-app.post("/api/vagas", authenticateToken, async (req, res) => {
+app.post("/api/vagas", privateAcess, authenticateToken, async (req, res) => {
   if (req.user.userType === "copex") {
     const {
       titulo,
@@ -363,7 +364,7 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
 });
 
 //update vaga
-app.put("/api/vagas/:id", authenticateToken, async (req, res) => {
+app.put("/api/vagas/:id", privateAcess, authenticateToken, async (req, res) => {
   if (req.user.userType !== "copex")
     return res.status(403).json({
       success: false,
@@ -439,7 +440,7 @@ app.put("/api/vagas/:id", authenticateToken, async (req, res) => {
 });
 
 //delete vaga
-app.delete("/api/vagas/:id", authenticateToken, async (req, res) => {
+app.delete("/api/vagas/:id", privateAcess, authenticateToken, async (req, res) => {
   if (req.user.userType !== "copex")
     return res.status(403).json({
       success: false,
@@ -486,7 +487,7 @@ process.on("SIGINT", async () => {
 
 export default app;
 
-if (process.env.STAGE === "Development") {
+if (process.env.STAGE === "development") {
   app.listen(port, async () => {
     console.log(`Running on port ${port}`);
   });

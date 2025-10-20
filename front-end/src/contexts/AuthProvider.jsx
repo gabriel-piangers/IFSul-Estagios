@@ -53,6 +53,7 @@ export function AuthProvider({ children }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            "api-key": import.meta.env.VITE_API_KEY,
           },
           body: JSON.stringify({
             email: email,

@@ -36,6 +36,7 @@ export function InsertionPage() {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          "api-key": import.meta.env.VITE_API_KEY,
         },
         body: JSON.stringify({
           titulo: payload.titulo,

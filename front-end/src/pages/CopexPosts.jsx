@@ -73,6 +73,7 @@ export function CopexPosts() {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            "api-key": import.meta.env.VITE_API_KEY,
           },
         }
       );
@@ -112,6 +113,7 @@ export function CopexPosts() {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            "api-key": import.meta.env.VITE_API_KEY,
           },
           body: JSON.stringify({
             titulo: payload.titulo,
@@ -132,7 +134,6 @@ export function CopexPosts() {
       const data = await response.json();
 
       if (data.success) {
-        console.log(data);
         setUpdateAlert(false);
         setUpdatingVaga(null);
         setUpdateError({ status: false });
@@ -238,7 +239,7 @@ export function CopexPosts() {
           </aside>
         ) : !error.status ? (
           <div className="jobs-not-found">
-            <h2>Você ainda não publicou nenhuma vaga.</h2>
+            <h2>Nenhuma vaga encontrada</h2>
             <p>Para publicar uma vaga, clique no botão "Publicar Vaga".</p>
             <LightButton
               icon={plusIcon}
