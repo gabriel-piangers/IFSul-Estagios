@@ -7,16 +7,20 @@
       "config": {
         "distDir": "dist"
       }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/back-end/server.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/front-end/dist/$1"
+      "src": "back-end/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/back-end/server.js"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/front-end/dist/:path*"
     }
   ]
 }
