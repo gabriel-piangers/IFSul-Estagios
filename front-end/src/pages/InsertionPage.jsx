@@ -1,5 +1,4 @@
 import { Header } from "../components/Header";
-import { cidadeOpt, cursoOpt, turnoOpt } from "../scripts/memoDB";
 import "../styles/InsertionPage.css";
 import { useNavigate } from "react-router";
 import { useState } from "react";
@@ -25,8 +24,6 @@ export function InsertionPage() {
       return;
     }
 
-    console.log(payload);
-
     if (!user || !user.user_type === "copex")
       return setError({
         status: true,
@@ -39,6 +36,7 @@ export function InsertionPage() {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          "api-key": import.meta.env.VITE_API_KEY,
         },
         body: JSON.stringify({
           titulo: payload.titulo,
@@ -51,6 +49,7 @@ export function InsertionPage() {
           empresa_nome: payload.empresa_nome,
           link: payload.link,
           remunerado: payload.sem_bolsa || false,
+          tipo: payload.modalidade,
         }),
       });
 
@@ -78,9 +77,6 @@ export function InsertionPage() {
         <section className="insert-job-display">
           <h1 className="insert-title">Adicionar nova vaga</h1>
           <InsertionForm
-            cidadeOpt={cidadeOpt}
-            cursoOpt={cursoOpt}
-            turnoOpt={turnoOpt}
             onReturn={handleReturn}
             onSubmit={handleInsertion}
             success={success}

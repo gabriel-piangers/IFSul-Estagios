@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { Header } from "../components/Header";
-import { SearchForm } from "../components/searchForm";
-import { cidadeOpt, cursoOpt, turnoOpt } from "../scripts/memoDB";
+import { SearchForm } from "../components/SearchForm";
 import { useLocation, useNavigate } from "react-router";
-import jobIcon from "../assets/job-icon.png";
 import lixeira from "../assets/lixeira.svg";
 import editar from "../assets/editar.svg";
 import plusIcon from "../assets/plusIcon.svg";
@@ -12,6 +10,7 @@ import { ModalAlert } from "../components/ModalAlert";
 import { InsertionForm } from "../components/InsertionForm";
 import "../styles/CopexPosts.css";
 import { GreenButton } from "../components/GreenButton";
+import { Loader } from "../components/Loader";
 
 export function CopexPosts() {
   const navigate = useNavigate();
@@ -75,6 +74,7 @@ export function CopexPosts() {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            "api-key": import.meta.env.VITE_API_KEY,
           },
         }
       );
@@ -114,6 +114,7 @@ export function CopexPosts() {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            "api-key": import.meta.env.VITE_API_KEY,
           },
           body: JSON.stringify({
             titulo: payload.titulo,
@@ -126,6 +127,7 @@ export function CopexPosts() {
             empresa_nome: payload.empresa_nome,
             link: payload.link,
             remunerado: payload.sem_bolsa || false,
+            tipo: payload.modalidade,
           }),
         }
       );
@@ -133,7 +135,6 @@ export function CopexPosts() {
       const data = await response.json();
 
       if (data.success) {
-        console.log(data);
         setUpdateAlert(false);
         setUpdatingVaga(null);
         setUpdateError({ status: false });
@@ -177,13 +178,9 @@ export function CopexPosts() {
     <>
       <Header />
       <main className="page-main">
-        <SearchForm
-          cidades={cidadeOpt}
-          cursos={cursoOpt}
-          onSubmit={handleSearch}
-        />
+        <SearchForm onSubmit={handleSearch} />
         {loading ? (
-          <h1>Carregando...</h1>
+          <Loader className="main-loader" />
         ) : postedVagas.length > 0 && !error.status ? (
           <aside className="search-aside" id="post-search">
             {postedVagas.map((vaga) => {
@@ -228,9 +225,6 @@ export function CopexPosts() {
                   {updateAlert && (
                     <ModalAlert title="Editar vaga publicada">
                       <InsertionForm
-                        cidadeOpt={cidadeOpt}
-                        cursoOpt={cursoOpt}
-                        turnoOpt={turnoOpt}
                         onReturn={handleCancelUpdate}
                         onSubmit={handleUpdate(updatingVaga)}
                         success={updateSuccess}
@@ -246,7 +240,7 @@ export function CopexPosts() {
           </aside>
         ) : !error.status ? (
           <div className="jobs-not-found">
-            <h2>Você ainda não publicou nenhuma vaga.</h2>
+            <h2>Nenhuma vaga encontrada</h2>
             <p>Para publicar uma vaga, clique no botão "Publicar Vaga".</p>
             <LightButton
               icon={plusIcon}

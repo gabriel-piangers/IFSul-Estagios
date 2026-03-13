@@ -1,6 +1,5 @@
 import { Header } from "../components/Header";
 import { SearchForm } from "../components/SearchForm";
-import { cidadeOpt, cursoOpt } from "../scripts/memoDB";
 import "../styles/Home.css";
 import { useEffect } from "react";
 
@@ -19,12 +18,7 @@ export function HomePage() {
           <section className="home-left">Encontre vagas de Estágio</section>
 
           <section className="home-right">
-            <SearchForm
-              cidades={cidadeOpt}
-              cursos={cursoOpt}
-              id="home-form"
-              color="var(--bg-color)"
-            />
+            <SearchForm id="home-form" color="var(--bg-color)" />
             <a
               className="home-right-link"
               href="https://www.sapiranga.ifsul.edu.br/coordenadoria-de-pesquisa-e-extensao/estagios"

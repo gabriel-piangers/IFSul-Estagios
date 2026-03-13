@@ -1,49 +1,40 @@
 import { Header } from "../components/Header";
-import { FormSelect } from "../components/FormSelect";
-import { FormSubmit } from "../components/FormSubmit";
-import { SearchForm } from "../components/searchForm";
-import jobIcon from "../assets/job-icon.png";
-import { printReais } from "../scripts/stringHandler";
+import { SearchForm } from "../components/SearchForm";
+import {
+  printReais,
+  convertUrlsToLinks,
+  printPublishedTime,
+} from "../scripts/stringHandler";
 import { useState } from "react";
-import { cidadeOpt, cursoOpt, vagas } from "../scripts/memoDB";
 import { useLocation, useSearchParams } from "react-router";
 import { useEffect } from "react";
+import "../styles/LoginPage.css";
+import returnIcon from "../assets/corner-down-left.svg";
+import { Loader } from "../components/Loader";
 
 export function SearchPage() {
   const [matchingJobs, setMatchingJobs] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
   const location = useLocation();
-  let searchCity = null;
+  const [searchCity, setSearchCity] = useState(null);
+  const [searchCourse, setSearchCourse] = useState(null);
   const [error, setError] = useState({ status: false, msg: "" });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [sideMenu, setSideMenu] = useState(true);
+  const [width, setWidth] = useState(window.innerWidth);
 
   const getJobs = async (url) => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}${url}`);
-    const data = await response.json();
-    if (data.success) {
-      setMatchingJobs(data.vagas);
-      setSelectedJob(data.vagas[0] || null);
-    } else {
-      console.log("failed to get vagas: ", data.msg);
-      setMatchingJobs([]);
-    }
-  };
-
-  useEffect(() => {
     try {
       setLoading(true);
-      const searchParams = new URLSearchParams(location.search);
-      let searchCity = searchParams.get("cidade") || null;
-      let searchCourse = searchParams.get("cursoId") || null;
-      let url = "/vagas";
-      const params = [];
-
-      if (searchCity) params.push(`cidade=${searchCity}`);
-      if (searchCourse) params.push(`curso_id=${searchCourse}`);
-
-      if (params.length > 0) url += "?" + params.join("&");
-      getJobs(url);
-      setError({ status: false });
+      const response = await fetch(`${import.meta.env.VITE_API_URL}${url}`);
+      const data = await response.json();
+      if (data.success) {
+        setMatchingJobs(data.vagas);
+        setSelectedJob(data.vagas[0] || null);
+      } else {
+        console.log("failed to get vagas: ", data.msg);
+        setMatchingJobs([]);
+      }
     } catch (error) {
       console.log("erro ao carregar vagas: ", error);
       setMatchingJobs([]);
@@ -51,6 +42,36 @@ export function SearchPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    const searchParams = new URLSearchParams(location.search);
+    const city = searchParams.get("cidade") || null;
+    const course = searchParams.get("cursoId") || null;
+    let url = "/vagas";
+    const params = [];
+
+    if (city) params.push(`cidade=${city}`);
+    if (course) params.push(`curso_id=${course}`);
+
+    if (params.length > 0) url += "?" + params.join("&");
+    getJobs(url);
+    setSearchCity(city);
+    setSearchCourse(course);
+    setError({ status: false });
   }, [location]);
 
   useEffect(() => {
@@ -65,9 +86,9 @@ export function SearchPage() {
     <>
       <Header />
       <main className="page-main">
-        <SearchForm cidades={cidadeOpt} cursos={cursoOpt} />
+        <SearchForm payload={{ cidade: searchCity, curso: searchCourse }} />
         {loading ? (
-          <h2 className="jobs-not-found">Carregando...</h2>
+          <Loader className="main-loader" />
         ) : error.status ? (
           <div className="jobs-not-found">
             <h2>Ocorreu um erro ao buscar buscar por vagas.</h2>
@@ -75,7 +96,13 @@ export function SearchPage() {
           </div>
         ) : matchingJobs.length > 0 ? (
           <div className="search-results">
-            <aside className="search-aside">
+            <aside
+              className="search-aside"
+              style={{
+                display: width < 768 ? (sideMenu ? "block" : "none") : "block",
+                width: width < 768 ? "100%" : "35%",
+              }}
+            >
               <p className="search-results-info">
                 {" "}
                 {`${matchingJobs.length} vagas encontradas ${
@@ -89,10 +116,21 @@ export function SearchPage() {
                       selectedJob.id === vaga.id ? "selected" : ""
                     }`}
                     key={vaga.id}
-                    onClick={() => setSelectedJob(vaga)}
+                    onClick={() => {
+                      setSelectedJob(vaga);
+                      setSideMenu(false);
+                    }}
                   >
                     <div className="aside-job-info">
-                      <h3 className="aside-job-title">{vaga.titulo}</h3>
+                      <div
+                        className="flex-container"
+                        style={{ justifyContent: "space-between" }}
+                      >
+                        <h3 className="aside-job-title">{vaga.titulo}</h3>
+                        <span className="aside-job-date">
+                          {printPublishedTime(vaga.publicada_em)}
+                        </span>
+                      </div>
                       <p className="aside-job-company">{vaga.empresa_nome}</p>
                       <div
                         className="flex-container"
@@ -113,12 +151,34 @@ export function SearchPage() {
                 );
               })}
             </aside>
-            <section className="search-job-display">
-              <h2 className="job-display-title">{selectedJob.titulo}</h2>
-              <p className="job-display-p-thin">
-                {selectedJob.empresa_nome} • {selectedJob.cidade}
-              </p>
-
+            <section
+              className="search-job-display"
+              style={{
+                display: width < 768 ? (sideMenu ? "none" : "block") : "block",
+                width: width < 768 ? "100%" : "65%",
+              }}
+            >
+              <div className="flex-container">
+                <img
+                  src={returnIcon}
+                  alt="Voltar ao menu"
+                  className="job-display-back"
+                  style={{ display: width < 768 ? "block" : "none" }}
+                  onClick={() => setSideMenu(true)}
+                />
+                <h2 className="job-display-title">{selectedJob.titulo}</h2>
+              </div>
+              <div
+                className="flex-container"
+                style={{ width: "100%", justifyContent: "space-between" }}
+              >
+                <p className="job-display-p-thin">
+                  {selectedJob.empresa_nome} • {selectedJob.cidade}
+                </p>
+                <span className="aside-job-date">
+                  {printPublishedTime(selectedJob.publicada_em)}
+                </span>
+              </div>
               {selectedJob.link ? (
                 <button
                   className="form-submit job-display-button"
@@ -137,7 +197,11 @@ export function SearchPage() {
 
               <p className="job-display-p">
                 <strong>Sobre</strong> <br />
-                {selectedJob.descricao}
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: convertUrlsToLinks(selectedJob.descricao),
+                  }}
+                />
               </p>
               <p className="job-display-p">
                 <strong>Turno</strong> <br />
@@ -145,8 +209,10 @@ export function SearchPage() {
               </p>
               <p className="job-display-p">
                 <strong>Bolsa</strong> <br />
-                {selectedJob.bolsa == 0
-                  ? "A combinar"
+                {selectedJob.remunerado
+                  ? "Não remunerado"
+                  : selectedJob.bolsa == 0
+                  ? "Não informado"
                   : printReais(selectedJob.bolsa)}
               </p>
               <p className="job-display-p">

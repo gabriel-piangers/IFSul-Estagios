@@ -1,6 +1,11 @@
-export function FormSubmit({label = "Enviar", className= ""}) {
+import { capitalize } from "../scripts/stringHandler";
 
-    return (
-        <input type="submit" value={label} className={`form-submit ${className}`}/>
-    )
+export function FormSubmit({ label = "Enviar", className = "" }) {
+  return (
+    <input
+      type="submit"
+      value={capitalize(label)}
+      className={`form-submit ${className}`}
+    />
+  );
 }

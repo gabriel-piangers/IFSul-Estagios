@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 
 import { authenticateToken } from "./middleware/authenticateToken.js";
+import { privateAcess } from "./middleware/privateAcess.js";
 
 const port = process.env.PORT || 3000;
 
@@ -21,10 +22,10 @@ const pool = new Pool({
   },
   max: 5, //max de conexões simultaneas
   min: 1, // minimo de conexões simultaneas
-  connectionTimeoutMillis: 5000, // Timeout para conectar
+  connectionTimeoutMillis: 30000, // Timeout para conectar
   acquireTimeoutMillis: 60000, // Timeout para pegar conexão do pool
   statement_timeout: 30000, // Timeout para queries
-  idleTimeoutMillis: 30000, // Fechar conexões inativas
+  idleTimeoutMillis: 60000, // Fechar conexões inativas
   allowExitOnIdle: false, // Não deixar pool morrer
 });
 
@@ -36,7 +37,10 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "https://ifsul-estagios.vercel.app",
+      "http://localhost:5173", // para desenvolvimento local
+    ],
     credentials: true,
   })
 );
@@ -45,8 +49,12 @@ app.use(cookieParser());
 
 // +-- Routes ---+
 
+app.get("/api/health", (req, res) => {
+  res.json({ message: "API está funcionando!" });
+});
+
 //get users
-app.get("/api/users", async (req, res) => {
+app.get("/api/users", privateAcess, async (req, res) => {
   try {
     const query = "SELECT * FROM users";
     const result = await pool.query(query);
@@ -60,7 +68,7 @@ app.get("/api/users", async (req, res) => {
 });
 
 //register new user
-app.post("/api/users", async (req, res) => {
+app.post("/api/users", privateAcess, async (req, res) => {
   try {
     const { email, password, name, user_type } = req.body;
     if (!email || !password || !name || !user_type) {
@@ -92,7 +100,7 @@ app.post("/api/users", async (req, res) => {
 });
 
 // Validates if email is not in use
-app.get("/api/users/check-email/:email", async (req, res) => {
+app.get("/api/users/check-email/:email", privateAcess, async (req, res) => {
   try {
     const email = req.params.email;
     if (!email)
@@ -123,7 +131,7 @@ app.get("/api/users/check-email/:email", async (req, res) => {
 });
 
 //user login
-app.post("/api/users/login", async (req, res) => {
+app.post("/api/users/login", privateAcess, async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password)
@@ -284,7 +292,7 @@ app.get("/api/vagas", async (req, res) => {
 });
 
 //insert vaga
-app.post("/api/vagas", authenticateToken, async (req, res) => {
+app.post("/api/vagas", privateAcess, authenticateToken, async (req, res) => {
   if (req.user.userType === "copex") {
     const {
       titulo,
@@ -356,7 +364,7 @@ app.post("/api/vagas", authenticateToken, async (req, res) => {
 });
 
 //update vaga
-app.put("/api/vagas/:id", authenticateToken, async (req, res) => {
+app.put("/api/vagas/:id", privateAcess, authenticateToken, async (req, res) => {
   if (req.user.userType !== "copex")
     return res.status(403).json({
       success: false,
@@ -432,7 +440,7 @@ app.put("/api/vagas/:id", authenticateToken, async (req, res) => {
 });
 
 //delete vaga
-app.delete("/api/vagas/:id", authenticateToken, async (req, res) => {
+app.delete("/api/vagas/:id", privateAcess, authenticateToken, async (req, res) => {
   if (req.user.userType !== "copex")
     return res.status(403).json({
       success: false,
@@ -477,6 +485,10 @@ process.on("SIGINT", async () => {
   process.exit(0);
 });
 
-app.listen(port, async () => {
-  console.log(`Running on port ${port}`);
-});
+export default app;
+
+if (process.env.STAGE === "development") {
+  app.listen(port, async () => {
+    console.log(`Running on port ${port}`);
+  });
+}

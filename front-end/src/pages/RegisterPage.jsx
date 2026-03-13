@@ -15,7 +15,14 @@ export function RegisterPage() {
   const checkEmail = async (email) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/users/check-email/${email}`
+        `${import.meta.env.VITE_API_URL}/users/check-email/${email}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
       );
       const data = await response.json();
 
@@ -23,11 +30,11 @@ export function RegisterPage() {
         return data;
       } else {
         console.log(`Server error: ${data.msg}`);
-        return data
+        return data;
       }
     } catch (error) {
       console.log(`Error checking email: ${error}`);
-      return false
+      return false;
     }
   };
 
@@ -35,47 +42,50 @@ export function RegisterPage() {
     e.preventDefault();
     const formData = new FormData(e.target); // recebe os dados do form
     const payload = Object.fromEntries(formData); // converte para um objeto
-    const isValidPassword = validatePassword(payload.password)
-    const isValidEmail = validateEmail(payload.email)
+    const isValidPassword = validatePassword(payload.password);
+    const isValidEmail = validateEmail(payload.email);
 
-    isValidPassword ? setValidPassword(true) : setValidPassword(false)
-    isValidEmail? setValidEmail({status: true}) : setValidEmail({ 
-      status: false, msg: "Utilize seu email institucional" 
-    });
+    isValidPassword ? setValidPassword(true) : setValidPassword(false);
+    isValidEmail
+      ? setValidEmail({ status: true })
+      : setValidEmail({
+          status: false,
+          msg: "Utilize seu email institucional",
+        });
 
     if (isValidEmail && isValidPassword) {
-      const emailData = await checkEmail(payload.email)
+      const emailData = await checkEmail(payload.email);
       if (emailData) {
-        if (emailData.exists) return setValidEmail({ status: false, msg: "Email já registrado" });
+        if (emailData.exists)
+          return setValidEmail({ status: false, msg: "Email já registrado" });
 
-        setValidEmail({status: true})
+        setValidEmail({ status: true });
 
         const response = await fetch(`${import.meta.env.VITE_API_URL}/users`, {
           method: "POST",
           headers: {
-            'Content-Type': "application/json",
+            "Content-Type": "application/json",
+            "api-key": import.meta.env.VITE_API_KEY,
           },
           body: JSON.stringify({
             email: payload.email,
             password: payload.password,
             name: payload.name,
-            user_type: "aluno"
-          })
-        })
+            user_type: "aluno",
+          }),
+        });
 
-        const data = await response.json()
+        const data = await response.json();
 
-        if(data.success) {
-          console.log("usuário criado com sucesso")
+        if (data.success) {
+          console.log("usuário criado com sucesso");
 
-          e.target.reset()
+          e.target.reset();
         } else {
-          console.log(`Erro ao registrar usuário: ${data.msg}`)
+          console.log(`Erro ao registrar usuário: ${data.msg}`);
         }
-
-
       } else {
-        console.log("Erro ao verrificar o email")
+        console.log("Erro ao verrificar o email");
       }
     }
   };

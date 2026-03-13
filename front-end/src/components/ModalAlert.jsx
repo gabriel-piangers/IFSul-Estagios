@@ -1,6 +1,3 @@
-import { LightButton } from "./LightButton";
-import { GreenButton } from "./GreenButton";
-import { useState } from "react";
 import "../styles/ModalAlert.css";
 
 export function ModalAlert({
